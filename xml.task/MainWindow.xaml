@@ -1,12 +1,23 @@
-﻿<Window x:Class="xml.task.MainWindow"
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:xml.task"
+        xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit" x:Class="xml.task.MainWindow"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="289*"/>
+			<ColumnDefinition Width="107*"/>
+		</Grid.ColumnDefinitions>
+		<avalonedit:TextEditor
+			Name="textEditor"
+			FontFamily="Consolas"
+			FontSize="10pt"
+			SyntaxHighlighting="XML"
+			ShowLineNumbers="True">
+		</avalonedit:TextEditor>
+	</Grid>
 </Window>
