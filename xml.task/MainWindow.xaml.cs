@@ -1,6 +1,7 @@
 ﻿using System;
 using ICSharpCode.AvalonEdit.Folding;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +15,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using System.Xml.Linq;
+using xml.task.Model.Commands;
 
 namespace xml.task
 {
@@ -52,5 +55,15 @@ namespace xml.task
             }
         }
 
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            const string fileName = @"D:\xmltext.xml";
+            var doc = XDocument.Parse(System.IO.File.ReadAllText(fileName, Encoding.Default));
+            foreach (var element in doc.Root.Elements())
+            {
+                var command = new TestCommand(element);
+                command.Perform();
+            }
+        }
     }
 }
