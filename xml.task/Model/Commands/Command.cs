@@ -11,6 +11,7 @@ namespace xml.task.Model.Commands
     {
         public string Rst;
         public string Scn;
+        public string Name;
         public bool Success;
         public string ResultMessage;
 
@@ -18,6 +19,7 @@ namespace xml.task.Model.Commands
         {
             Rst = xElement.Attribute(@"rst").Value;
             Scn = xElement.Attribute(@"scn").Value;
+            Name = xElement.Attribute(@"name").Value;
         }
 
         //public XElement ToXElement()
@@ -27,7 +29,7 @@ namespace xml.task.Model.Commands
 
         public void Perform()
         {
-            Console.WriteLine(@"{0} {1}", Rst, Scn);
+            Console.WriteLine(@"{0} {1} {2}", Name, Rst, Scn);
         }
     }
 }
