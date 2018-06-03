@@ -4,6 +4,7 @@ using System.Linq;
 using System.Xml.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ASTRALib;
 
 namespace xml.task.Model.Commands
 {
@@ -25,11 +26,13 @@ namespace xml.task.Model.Commands
         //public XElement ToXElement()
         //{
 
-        //}
+        //}s
 
         public void Perform()
         {
             Console.WriteLine(@"{0} {1} {2}", Name, Rst, Scn);
+            Rastr rastr = new Rastr();
+
         }
     }
 }
