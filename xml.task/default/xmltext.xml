@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE recipe>
+<task name="тест">
+	<dynamic name="first" rst="D:\2021.rst" scn="D:\1s.scn" />
+	<dynamic name="first" rst="D:\2021.rst" scn="D:\2s.scn" />
+</task>
