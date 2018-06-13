@@ -2,37 +2,43 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
-using ASTRALib;
+using xml.task.Model.RastrManager;
 
 namespace xml.task.Model.Commands
 {
-    class TestCommand
+    class DynamicStabilityCommand
     {
         public string Rst;
         public string Scn;
         public string Name;
+        public string Folder;
         public bool Success;
         public string ResultMessage;
 
-        public TestCommand(XElement xElement)
+        public DynamicStabilityCommand(XElement xElement)
         {
-            Rst = xElement.Attribute(@"rst").Value;
-            Scn = xElement.Attribute(@"scn").Value;
-            Name = xElement.Attribute(@"name").Value;
+            Rst = xElement?.Attribute(@"rst")?.Value;
+            Scn = xElement?.Attribute(@"scn")?.Value;
+            Name = xElement?.Attribute(@"name")?.Value;
+            Folder = xElement?.Attribute(@"folder")?.Value;
         }
-
-        //public XElement ToXElement()
-        //{
-
-        //}s
 
         public void Perform()
         {
-            Console.WriteLine(@"{0} {1} {2}", Name, Rst, Scn);
-            Rastr rastr = new Rastr();
-
+            if (Folder == null)
+            {
+                var rastr = new RastrOperations();
+                rastr.Load(Rst, Scn);
+                rastr.Calc();
+            }
+            else
+            {
+                var rstFiles = Directory.GetFiles(Folder, @"*.rst");
+                var scnFiles = Directory.GetFiles(Folder, @"*.scn");
+            }
         }
     }
 }

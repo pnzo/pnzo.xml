@@ -17,6 +17,7 @@ using System.Windows.Shapes;
 using System.Windows.Threading;
 using System.Xml.Linq;
 using xml.task.Model.Commands;
+using xml.task.Model.RastrManager;
 
 namespace xml.task
 {
@@ -61,9 +62,15 @@ namespace xml.task
             var doc = XDocument.Parse(System.IO.File.ReadAllText(fileName, Encoding.Default));
             foreach (var element in doc.Root.Elements())
             {
-                var command = new TestCommand(element);
+                var command = new DynamicStabilityCommand(element);
                 command.Perform();
             }
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            var rastr = new RastrOperations();
+            Debug.Print((RastrOperations.FindTemplatePathWithExtension(@"111") == null).ToString());
         }
     }
 }

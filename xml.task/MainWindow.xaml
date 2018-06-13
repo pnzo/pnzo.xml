@@ -20,5 +20,6 @@
 			ShowLineNumbers="True">
 		</avalonedit:TextEditor>
 		<Button Content="Button" Grid.Column="1" HorizontalAlignment="Left" Margin="52,105,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
+		<Button Content="RastrTest" Grid.Column="1" HorizontalAlignment="Left" Margin="52,151,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click_1"/>
 	</Grid>
 </Window>
