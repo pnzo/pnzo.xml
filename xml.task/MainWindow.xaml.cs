@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -18,6 +19,7 @@ using System.Windows.Threading;
 using System.Xml.Linq;
 using xml.task.Model.Commands;
 using xml.task.Model.RastrManager;
+using Microsoft.Win32;
 
 namespace xml.task
 {
@@ -45,7 +47,7 @@ namespace xml.task
             foldingStrategy.UpdateFoldings(foldingManager, textEditor.Document);
 
 
-            textEditor.Load(@"D:\xmltext.xml");
+            textEditor.Load(@"..\..\default\xmltext.xml");
         }
 
         void UpdateFoldings()
@@ -58,7 +60,7 @@ namespace xml.task
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            const string fileName = @"D:\xmltext.xml";
+            const string fileName = @"..\..\default\xmltext.xml";
             var doc = XDocument.Parse(System.IO.File.ReadAllText(fileName, Encoding.Default));
             foreach (var element in doc.Root.Elements())
             {
@@ -71,6 +73,31 @@ namespace xml.task
         {
             var rastr = new RastrOperations();
             Debug.Print((RastrOperations.FindTemplatePathWithExtension(@"111") == null).ToString());
+        }
+
+        private void button_Click_2(object sender, RoutedEventArgs e)
+        {
+            textEditor.Save(@"..\..\default\xmltext.xml");
+        }
+
+        private void button1_Click(object sender, RoutedEventArgs e)
+        {
+            var openFileDialog = new OpenFileDialog();
+            if (openFileDialog.ShowDialog() == true)
+            {
+                textEditor.Text = File.ReadAllText(openFileDialog.FileName, Encoding.Default);
+                fileComboBox.Text = openFileDialog.FileName;
+            }
+
+        }
+
+        private void button2_Click(object sender, RoutedEventArgs e)
+        {
+            var taskWindow = new ExecutingWindow();
+            taskWindow.Owner = this;
+            taskWindow.Content = @"test";
+            taskWindow.Topmost = true;
+            taskWindow.Show();
         }
     }
 }
