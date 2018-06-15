@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE recipe>
-<task name="ςερς">
-	<dynamic name="first" rst="..\..\default\2021.rst" scn="..\..\default\1s.scn" />
-	<dynamic name="first" rst="..\..\default\2021.rst" scn="..\..\default\2s.scn" />
-	<dynamic name="first" rst="..\..\default\2021.rst" scn="..\..\default\2τττττττττττττττττττττττ.scn" />
-</task>

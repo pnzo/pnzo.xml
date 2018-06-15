@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using xml.task.Model.Commands;
 
 namespace xml.task
 {
@@ -19,6 +20,8 @@ namespace xml.task
     /// </summary>
     public partial class ExecutingWindow : Window
     {
+        public List<DynamicStabilityCommand> Commands;
+
         public ExecutingWindow()
         {
             InitializeComponent();

@@ -6,10 +6,11 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using xml.task.Model.RastrManager;
+using System.Diagnostics;
 
 namespace xml.task.Model.Commands
 {
-    class DynamicStabilityCommand
+    public class DynamicStabilityCommand
     {
         public string Rst;
         public string Scn;
