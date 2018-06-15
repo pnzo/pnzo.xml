@@ -83,20 +83,20 @@ namespace xml.task
         private void button1_Click(object sender, RoutedEventArgs e)
         {
             var openFileDialog = new OpenFileDialog();
-            if (openFileDialog.ShowDialog() == true)
-            {
-                textEditor.Text = File.ReadAllText(openFileDialog.FileName, Encoding.Default);
-                fileComboBox.Text = openFileDialog.FileName;
-            }
+            if (openFileDialog.ShowDialog() != true) return;
+            textEditor.Text = File.ReadAllText(openFileDialog.FileName, Encoding.Default);
+            fileComboBox.Text = openFileDialog.FileName;
 
         }
 
         private void button2_Click(object sender, RoutedEventArgs e)
         {
-            var taskWindow = new ExecutingWindow();
-            taskWindow.Owner = this;
-            taskWindow.Content = @"test";
-            taskWindow.Topmost = true;
+            var taskWindow = new ExecutingWindow
+            {
+                Owner = this,
+                Title = @"test",
+                Topmost = true
+            };
             taskWindow.Show();
         }
     }
