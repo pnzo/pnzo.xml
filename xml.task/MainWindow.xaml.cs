@@ -45,45 +45,44 @@ namespace xml.task
     //    }
     //}
 
+    /// <inheritdoc />
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow
     {
-        FoldingManager foldingManager;
-        XmlFoldingStrategy foldingStrategy;
-        string filePath;
+        private readonly FoldingManager _foldingManager;
+        private readonly XmlFoldingStrategy _foldingStrategy;
+        private string _filePath;
 
         public MainWindow()
         {
             InitializeComponent();
-            DispatcherTimer foldingUpdateTimer = new DispatcherTimer();
-            foldingUpdateTimer.Interval = TimeSpan.FromSeconds(0.5);
+            var foldingUpdateTimer = new DispatcherTimer {Interval = TimeSpan.FromSeconds(0.5)};
             foldingUpdateTimer.Tick += delegate { UpdateFoldings(); };
             foldingUpdateTimer.Start();
             textEditor.TextArea.IndentationStrategy = new ICSharpCode.AvalonEdit.Indentation.DefaultIndentationStrategy();
 
-            foldingManager = FoldingManager.Install(textEditor.TextArea);
+            _foldingManager = FoldingManager.Install(textEditor.TextArea);
 
-            foldingStrategy = new XmlFoldingStrategy();
-            foldingStrategy.ShowAttributesWhenFolded = true;
-            foldingStrategy.UpdateFoldings(foldingManager, textEditor.Document);
+            _foldingStrategy = new XmlFoldingStrategy
+            {
+                ShowAttributesWhenFolded = true
+            };
+            _foldingStrategy.UpdateFoldings(_foldingManager, textEditor.Document);
         }
 
-        void UpdateFoldings()
+        private void UpdateFoldings()
         {
-            if (foldingStrategy is XmlFoldingStrategy)
-            {
-                ((XmlFoldingStrategy)foldingStrategy).UpdateFoldings(foldingManager, textEditor.Document);
-            }
+            _foldingStrategy?.UpdateFoldings(_foldingManager, textEditor.Document);
         }
 
         private void LoadFileToTextEditor(string filename)
         {
-            filePath = @"";
+            _filePath = @"";
             textEditor.Text = File.ReadAllText(filename, Encoding.UTF8);
-            filePath = Path.GetFullPath(filename);
-            fileLabel.Content = filePath;
+            _filePath = Path.GetFullPath(filename);
+            fileLabel.Content = _filePath;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -93,13 +92,15 @@ namespace xml.task
 
         private void saveButton_Click(object sender, RoutedEventArgs e)
         {
-            textEditor.Save(filePath);
+            textEditor.Save(_filePath);
         }
 
         private void openButton_Click(object sender, RoutedEventArgs e)
         {
-            var openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = @"XML files (*.xml)|*.xml|All files (*.*)|*.*";
+            var openFileDialog = new OpenFileDialog
+            {
+                Filter = @"XML files (*.xml)|*.xml|All files (*.*)|*.*"
+            };
             if (openFileDialog.ShowDialog() != true) return;
             LoadFileToTextEditor(openFileDialog.FileName);
         }
@@ -107,18 +108,13 @@ namespace xml.task
         private void executingButton_Click(object sender, RoutedEventArgs e)
         {
             var doc = XDocument.Parse(textEditor.Text);
-            var commands = new List<DynamicStabilityCommand>();
-            foreach (var element in doc.Root.Elements())
-            {
-                var command = new DynamicStabilityCommand(element);
-                commands.Add(command);
-            }
+            var commands = doc.Root?.Elements().Select(element => new DynamicStabilityCommand(element)).ToList();
 
             var taskWindow = new ExecutingWindow
             {
                 Owner = this,
                 Commands = commands,
-                Title = doc.Root.Attribute(@"name")?.Value ?? @"noname",
+                Title = doc.Root?.Attribute(@"name")?.Value ?? @"noname",
             Topmost = true
             };
             taskWindow.Show();
@@ -131,32 +127,32 @@ namespace xml.task
 
         }
 
-        private void textEditor_PreviewDrop(object sender, DragEventArgs e)
+        private void TextEditor_PreviewDrop(object sender, DragEventArgs e)
         {
-            string[] s = (string[])e.Data.GetData(DataFormats.FileDrop, true);
-            foreach (string f in s)
+            var s = (string[])e.Data.GetData(DataFormats.FileDrop, true);
+            if (s == null) return;
+            foreach (var f in s)
                 LoadFileToTextEditor(f);
         }
 
-        private void newButton_Click(object sender, RoutedEventArgs e)
+        private void NewButton_Click(object sender, RoutedEventArgs e)
         {
-            filePath = @"";
-            fileLabel.Content = filePath;
+            _filePath = @"";
+            fileLabel.Content = _filePath;
             textEditor.Text = @"<task name=""new task"">
 
 </task>
 ";
         }
 
-        private void exampleButton_Click(object sender, RoutedEventArgs e)
+        private void ExampleButton_Click(object sender, RoutedEventArgs e)
         {
             LoadFileToTextEditor(@"default\xmltext.xml");
         }
 
-        private void saveAsButton_Click(object sender, RoutedEventArgs e)
+        private void SaveAsButton_Click(object sender, RoutedEventArgs e)
         {
-            var saveFileDialog = new SaveFileDialog();
-            saveFileDialog.Filter = @"XML files (*.xml)|*.xml|All files (*.*)|*.*";
+            var saveFileDialog = new SaveFileDialog {Filter = @"XML files (*.xml)|*.xml|All files (*.*)|*.*"};
             if (saveFileDialog.ShowDialog() != true) return;
             textEditor.Save(saveFileDialog.FileName);
         }
