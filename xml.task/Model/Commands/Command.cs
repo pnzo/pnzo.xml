@@ -33,13 +33,18 @@ namespace xml.task.Model.Commands
             {
                 var rastr = new RastrOperations();
                 rastr.Load(Rst, Scn);
-                rastr.Calc();
+                rastr.RunDynamic();
             }
             else
             {
                 var rstFiles = Directory.GetFiles(Folder, @"*.rst");
                 var scnFiles = Directory.GetFiles(Folder, @"*.scn");
             }
+        }
+
+        public override string ToString()
+        {
+            return this.Name;
         }
     }
 }

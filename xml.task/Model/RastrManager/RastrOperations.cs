@@ -32,7 +32,7 @@ namespace xml.task.Model.RastrManager
                 _rastr.Load(RG_KOD.RG_REPL, file, FindTemplatePathWithExtension(Path.GetExtension(file)));
         }
 
-        public void Calc()
+        public void RunDynamic()
         {
             _rastr.Load(RG_KOD.RG_REPL, @"", FindTemplatePathWithExtension(@"dfw"));
             var dyn = _rastr.FWDynamic();

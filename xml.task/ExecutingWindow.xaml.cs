@@ -25,6 +25,37 @@ namespace xml.task
         public ExecutingWindow()
         {
             InitializeComponent();
+
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            foreach (var command in Commands)
+            {
+                CommandListBox.Items.Add(command);
+            }
+            var task = new Task(Run);
+            task.Start();
+        }
+
+        private void Run()
+        {
+            foreach (var command in Commands)
+            {
+                command.Perform();
+            }
+            
+            Dispatcher.BeginInvoke(new Action(delegate ()
+            {
+                this.Title += @" - finished";
+            }));
+
+        }
+
+        private void CommandListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var command = (DynamicStabilityCommand)CommandListBox.SelectedItem;
+            ResultText.Text = command.ResultMessage;
         }
     }
 }

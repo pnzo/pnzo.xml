@@ -6,16 +6,16 @@
         xmlns:local="clr-namespace:xml.task"
         xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit" x:Class="xml.task.ExecutingWindow"
         mc:Ignorable="d"
-        Title="ExecutingWindow" Height="300" Width="300">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="2*"/>
-            <RowDefinition Height="1*"/>
-        </Grid.RowDefinitions>
-        <ListBox x:Name="listBox"/>
+        Title="ExecutingWindow" Height="300" Width="300" Loaded="Window_Loaded">
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="2*"/>
+			<RowDefinition Height="1*"/>
+		</Grid.RowDefinitions>
+		<ListBox x:Name="CommandListBox" SelectionChanged="CommandListBox_SelectionChanged"/>
 
-        <avalonedit:TextEditor Grid.Row="1"/>
-        <GridSplitter x:Name="gridSplitter" HorizontalAlignment="Left" Height="9" Margin="116,0,0,0" Grid.Row="1" VerticalAlignment="Top" Width="121" ResizeDirection="Rows"/>
+		<avalonedit:TextEditor Grid.Row="1" Name="ResultText"/>
+		<GridSplitter x:Name="GridSplitter" Height="5" Margin="0,0,0,0" Grid.Row="1" VerticalAlignment="Top" ResizeDirection="Rows" HorizontalAlignment="Stretch"/>
 
-    </Grid>
+	</Grid>
 </Window>

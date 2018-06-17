@@ -123,7 +123,12 @@ namespace xml.task
             var s = (string[])e.Data.GetData(DataFormats.FileDrop, true);
             if (s == null) return;
             foreach (var f in s)
+            {
+                if (Path.GetExtension(f) != @".xml") continue;
                 LoadFileToTextEditor(f);
+                return;
+            }
+
         }
 
         private void NewButton_Click(object sender, RoutedEventArgs e)
