@@ -54,6 +54,7 @@ namespace xml.task
         public MainWindow()
         {
             InitializeComponent();
+            TextEditor.Encoding = Encoding.UTF8;
             var foldingUpdateTimer = new DispatcherTimer {Interval = TimeSpan.FromSeconds(0.5)};
             foldingUpdateTimer.Tick += delegate { UpdateFoldings(); };
             foldingUpdateTimer.Start();
@@ -83,7 +84,8 @@ namespace xml.task
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            TextEditor.Save(_filePath);
+            if (_filePath != @"")
+                TextEditor.Save(_filePath);
         }
 
         private void OpenButton_Click(object sender, RoutedEventArgs e)
@@ -98,15 +100,24 @@ namespace xml.task
 
         private void ExecutingButton_Click(object sender, RoutedEventArgs e)
         {
-            var doc = XDocument.Parse(TextEditor.Text);
-            var commands = doc.Root?.Elements().Select(element => new DynamicStabilityCommand(element)).ToList();
-
+            XDocument doc;
+            List<DynamicStabilityCommand> commands;
+            try
+            {
+                doc = XDocument.Parse(TextEditor.Text);
+                commands = doc.Root?.Elements().Select(element => new DynamicStabilityCommand(element)).ToList();
+            }
+            catch (Exception)
+            {
+                MessageBox.Show(@"Неправильный формат задания");
+                return;
+            }
             var taskWindow = new ExecutingWindow
             {
                 Owner = this,
                 Commands = commands,
                 Title = doc.Root?.Attribute(@"name")?.Value ?? @"noname",
-            Topmost = true
+                Topmost = true
             };
             taskWindow.Show();
         }
@@ -115,7 +126,6 @@ namespace xml.task
         {
             e.Effects = DragDropEffects.All;
             e.Handled = true;
-
         }
 
         private void TextEditor_PreviewDrop(object sender, DragEventArgs e)

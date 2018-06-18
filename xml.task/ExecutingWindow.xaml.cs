@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -20,12 +21,13 @@ namespace xml.task
     /// </summary>
     public partial class ExecutingWindow : Window
     {
-        public List<DynamicStabilityCommand> Commands;
+        CancellationTokenSource cancelToken = new CancellationTokenSource();
 
+        public List<DynamicStabilityCommand> Commands;
+        Task task;
         public ExecutingWindow()
         {
             InitializeComponent();
-
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -34,7 +36,8 @@ namespace xml.task
             {
                 CommandListBox.Items.Add(command);
             }
-            var task = new Task(Run);
+
+            task = new Task(Run, cancelToken.Token);
             task.Start();
         }
 
@@ -44,7 +47,7 @@ namespace xml.task
             {
                 command.Perform();
             }
-            
+
             Dispatcher.BeginInvoke(new Action(delegate ()
             {
                 this.Title += @" - finished";
@@ -54,8 +57,18 @@ namespace xml.task
 
         private void CommandListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var command = (DynamicStabilityCommand)CommandListBox.SelectedItem;
+            var command = (Command)CommandListBox.SelectedItem;
             ResultText.Text = command.ResultMessage;
+            if (command.ResultMessage!=null)
+            {
+                Clipboard.SetText(command.ResultMessage);
+            }
+
+        }
+
+        private void Window_Unloaded(object sender, RoutedEventArgs e)
+        {
+            cancelToken.Cancel();
         }
     }
 }

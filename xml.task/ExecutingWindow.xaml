@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:xml.task"
         xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit" x:Class="xml.task.ExecutingWindow"
         mc:Ignorable="d"
-        Title="ExecutingWindow" Height="300" Width="300" Loaded="Window_Loaded">
+        Title="ExecutingWindow" Height="300" Width="300" Loaded="Window_Loaded" Unloaded="Window_Unloaded">
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="2*"/>
@@ -14,7 +14,9 @@
 		</Grid.RowDefinitions>
 		<ListBox x:Name="CommandListBox" SelectionChanged="CommandListBox_SelectionChanged"/>
 
-		<avalonedit:TextEditor Grid.Row="1" Name="ResultText"/>
+		<avalonedit:TextEditor Grid.Row="1" 
+                               Name="ResultText" 
+                               Margin="0,5,0,0"/>
 		<GridSplitter x:Name="GridSplitter" Height="5" Margin="0,0,0,0" Grid.Row="1" VerticalAlignment="Top" ResizeDirection="Rows" HorizontalAlignment="Stretch"/>
 
 	</Grid>

@@ -9,6 +9,14 @@ using ASTRALib;
 
 namespace xml.task.Model.RastrManager
 {
+    internal struct DynamicResult
+    {
+        public string ResultMessage;
+        public double TimeReached;
+        public bool isSuccess;
+        public bool isStable; 
+    }
+
     internal class RastrOperations
     {
         private readonly Rastr _rastr;
@@ -23,7 +31,7 @@ namespace xml.task.Model.RastrManager
             if (!Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) +
                                   @"\RastrWIN3\SHABLON\")) return null;
             var files = Directory.GetFiles(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\RastrWIN3\SHABLON\");
-            return files.FirstOrDefault(filename => Path.GetExtension(filename).Replace(@".", @"") == extension.Replace(@".", @""));
+            return files.FirstOrDefault(filename => Path.GetExtension(filename) == extension);
         }
 
         public void Load(params string[] files)
@@ -32,12 +40,30 @@ namespace xml.task.Model.RastrManager
                 _rastr.Load(RG_KOD.RG_REPL, file, FindTemplatePathWithExtension(Path.GetExtension(file)));
         }
 
-        public void RunDynamic()
+        public DynamicResult RunDynamic()
         {
-            _rastr.Load(RG_KOD.RG_REPL, @"", FindTemplatePathWithExtension(@"dfw"));
+            var dynamicResult = new DynamicResult();
+            _rastr.Load(RG_KOD.RG_REPL, @"", FindTemplatePathWithExtension(@".dfw"));
             var dyn = _rastr.FWDynamic();
-            dyn.RunEMSmode();
-            Debug.Print(dyn.SyncLossCause.ToString());
+            var result = dyn.RunEMSmode();
+            if (result == RastrRetCode.AST_OK)
+            {
+                dynamicResult.isSuccess = true;
+            } else
+            {
+                dynamicResult.isSuccess = false;
+            }
+            if (dyn.SyncLossCause == DFWSyncLossCause.SYNC_LOSS_NONE)
+            {
+                dynamicResult.isStable = true;
+            }
+            else
+            {
+                dynamicResult.isStable = false;
+            }
+            dynamicResult.ResultMessage = dyn.ResultMessage;
+            dynamicResult.TimeReached = dyn.TimeReached;
+            return dynamicResult;
         }
     }
 }
