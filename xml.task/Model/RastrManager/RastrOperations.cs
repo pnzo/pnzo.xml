@@ -13,8 +13,8 @@ namespace xml.task.Model.RastrManager
     {
         public string ResultMessage;
         public double TimeReached;
-        public bool isSuccess;
-        public bool isStable; 
+        public bool IsSuccess;
+        public bool IsStable; 
     }
 
     internal class RastrOperations
@@ -46,21 +46,8 @@ namespace xml.task.Model.RastrManager
             _rastr.Load(RG_KOD.RG_REPL, @"", FindTemplatePathWithExtension(@".dfw"));
             var dyn = _rastr.FWDynamic();
             var result = dyn.RunEMSmode();
-            if (result == RastrRetCode.AST_OK)
-            {
-                dynamicResult.isSuccess = true;
-            } else
-            {
-                dynamicResult.isSuccess = false;
-            }
-            if (dyn.SyncLossCause == DFWSyncLossCause.SYNC_LOSS_NONE)
-            {
-                dynamicResult.isStable = true;
-            }
-            else
-            {
-                dynamicResult.isStable = false;
-            }
+            dynamicResult.IsSuccess = result == RastrRetCode.AST_OK;
+            dynamicResult.IsStable = dyn.SyncLossCause == DFWSyncLossCause.SYNC_LOSS_NONE;
             dynamicResult.ResultMessage = dyn.ResultMessage;
             dynamicResult.TimeReached = dyn.TimeReached;
             return dynamicResult;

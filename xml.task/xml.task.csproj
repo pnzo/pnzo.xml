@@ -69,6 +69,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="CommandClient.cs" />
     <Compile Include="ExecutingWindow.xaml.cs">
       <DependentUpon>ExecutingWindow.xaml</DependentUpon>
     </Compile>

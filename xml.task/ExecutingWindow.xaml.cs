@@ -19,12 +19,12 @@ namespace xml.task
     /// <summary>
     /// Логика взаимодействия для ExecutingWindow.xaml
     /// </summary>
-    public partial class ExecutingWindow : Window
+    public partial class ExecutingWindow
     {
-        CancellationTokenSource cancelToken = new CancellationTokenSource();
+        readonly CancellationTokenSource _cancelToken = new CancellationTokenSource();
 
-        public List<DynamicStabilityCommand> Commands;
-        Task task;
+        public List<Command> Commands;
+        Task _task;
         public ExecutingWindow()
         {
             InitializeComponent();
@@ -37,8 +37,8 @@ namespace xml.task
                 CommandListBox.Items.Add(command);
             }
 
-            task = new Task(Run, cancelToken.Token);
-            task.Start();
+            _task = new Task(Run, _cancelToken.Token);
+            _task.Start();
         }
 
         private void Run()
@@ -48,9 +48,9 @@ namespace xml.task
                 command.Perform();
             }
 
-            Dispatcher.BeginInvoke(new Action(delegate ()
+            Dispatcher.BeginInvoke(new Action(delegate
             {
-                this.Title += @" - finished";
+                Title += @" - finished";
             }));
 
         }
@@ -68,7 +68,7 @@ namespace xml.task
 
         private void Window_Unloaded(object sender, RoutedEventArgs e)
         {
-            cancelToken.Cancel();
+            _cancelToken.Cancel();
         }
     }
 }

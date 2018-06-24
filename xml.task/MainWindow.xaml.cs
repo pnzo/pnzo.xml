@@ -21,6 +21,7 @@ using xml.task.Model.Commands;
 using xml.task.Model.RastrManager;
 using Microsoft.Win32;
 using System.Collections.ObjectModel;
+using System.Xml;
 
 namespace xml.task
 {
@@ -101,22 +102,20 @@ namespace xml.task
         private void ExecutingButton_Click(object sender, RoutedEventArgs e)
         {
             XDocument doc;
-            List<DynamicStabilityCommand> commands;
             try
             {
                 doc = XDocument.Parse(TextEditor.Text);
-                commands = doc.Root?.Elements().Select(element => new DynamicStabilityCommand(element)).ToList();
             }
-            catch (Exception)
+            catch (Exception exception)
             {
-                MessageBox.Show(@"Неправильный формат задания");
+                MessageBox.Show($@"Не удалось распознать задание: {exception.Message}",@"Ошибка",MessageBoxButton.OK,MessageBoxImage.Error);
                 return;
-            }
+            }     
             var taskWindow = new ExecutingWindow
             {
                 Owner = this,
-                Commands = commands,
-                Title = doc.Root?.Attribute(@"name")?.Value ?? @"noname",
+                Commands = CommandClient.GetCommands(doc),
+                Title = CommandClient.GetHeader(doc),
                 Topmost = true
             };
             taskWindow.Show();
