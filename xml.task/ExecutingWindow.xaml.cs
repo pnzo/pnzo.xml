@@ -16,9 +16,6 @@ using xml.task.Model.Commands;
 
 namespace xml.task
 {
-    /// <summary>
-    /// Логика взаимодействия для ExecutingWindow.xaml
-    /// </summary>
     public partial class ExecutingWindow
     {
         readonly CancellationTokenSource _cancelToken = new CancellationTokenSource();
@@ -43,21 +40,29 @@ namespace xml.task
 
         private void Run()
         {
+            Dispatcher.BeginInvoke(new Action(delegate { ProgressBar.Maximum = Commands.Count; }));
+
             foreach (var command in Commands)
             {
                 command.Perform();
+                Dispatcher.BeginInvoke(new Action(delegate 
+                {
+                    CommandListBox_SelectionChanged(this, null);
+                    ProgressBar.Value++;
+                }));
             }
 
-            Dispatcher.BeginInvoke(new Action(delegate
-            {
-                Title += @" - finished";
-            }));
+            Dispatcher.BeginInvoke(new Action(delegate { Title += @" - finished"; }));
 
         }
 
         private void CommandListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var command = (Command)CommandListBox.SelectedItem;
+            if (command == null)
+            {
+                return;
+            }
             ResultText.Text = command.ResultMessage;
             if (command.ResultMessage!=null)
             {

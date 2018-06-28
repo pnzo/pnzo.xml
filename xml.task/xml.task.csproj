@@ -69,7 +69,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="CommandClient.cs" />
+    <Compile Include="Model\CommandClient.cs" />
     <Compile Include="ExecutingWindow.xaml.cs">
       <DependentUpon>ExecutingWindow.xaml</DependentUpon>
     </Compile>
@@ -80,6 +80,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\Commands\Command.cs" />
+    <Compile Include="Model\Commands\DynamicFolderCommand.cs" />
+    <Compile Include="Model\Commands\DynamicCommand.cs" />
+    <Compile Include="Model\Commands\FolderCommand.cs" />
     <Compile Include="Model\RastrManager\RastrOperations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

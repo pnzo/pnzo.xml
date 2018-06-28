@@ -19,8 +19,10 @@ namespace xml.task
             {
                 switch (xmlElement.Name.LocalName)
                 {
-                    case @"dynamic":
-                        commands.Add(new DynamicStabilityCommand(xmlElement)); break;
+                    case @"stab_d":
+                        commands.Add(new DynamicCommand(xmlElement)); break;
+                    case @"stab_d_folder":
+                        commands.AddRange(new DynamicFolderCommand(xmlElement).GenerateSimpleCommands()); break;
                     default:
                         break;
                 }
