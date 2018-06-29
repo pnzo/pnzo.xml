@@ -26,29 +26,26 @@ namespace xml.task.Model.Commands
 
         public override void Perform()
         {
-            if (Rst != null && Scn != null)
+            var rastr = new RastrOperations();
+            try
             {
-                var rastr = new RastrOperations();
-                try
-                {
-                    rastr.Load(Rst, Scn);
-                }
-                catch (Exception exception)
-                {
-                    ResultMessage = $@"Не удалось загрузить исходные файлы в рабочее пространство RastrWIN. 
+                rastr.Load(Rst, Scn);
+            }
+            catch (Exception exception)
+            {
+                ResultMessage = $@"Не удалось загрузить исходные файлы в рабочее пространство RastrWIN. 
 Сообщение: {exception.Message}";
-                    return;
-                }
+                return;
+            }
 
-                var result = rastr.RunDynamic();
+            var result = rastr.RunDynamic();
 
-                Success = result.IsSuccess;
-                var calculationString = Success ? (result.IsStable ? @"Устойчиво" : "Неустойчиво") : @"Ошибка расчета";
-                ResultMessage = $@"Файл динамики: {Rst}
+            Success = result.IsSuccess;
+            var calculationString = Success ? (result.IsStable ? @"Устойчиво" : "Неустойчиво") : @"Ошибка расчета";
+            ResultMessage = $@"Файл динамики: {Rst}
 Файл сценария: {Scn}
 Результат: {calculationString}
 Сообщение Rustab: {result.ResultMessage}";
-            }
         }
     }
 }

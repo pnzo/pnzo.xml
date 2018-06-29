@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using xml.task.Model.Commands;
+using xml.task.Model.Commands.SimpleCommands;
 
 namespace xml.task
 {
@@ -23,6 +24,8 @@ namespace xml.task
                         commands.Add(new DynamicCommand(xmlElement)); break;
                     case @"stab_d_folder":
                         commands.AddRange(new DynamicFolderCommand(xmlElement).GenerateSimpleCommands()); break;
+                    case @"correction":
+                        commands.Add(new WriteCommand(xmlElement)); break;
                     default:
                         break;
                 }

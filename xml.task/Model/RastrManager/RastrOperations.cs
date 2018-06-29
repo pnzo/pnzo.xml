@@ -43,6 +43,19 @@ namespace xml.task.Model.RastrManager
 
         }
 
+        public void Save(string file)
+        {
+            _rastr.Save(file, FindTemplatePathWithExtension(Path.GetExtension(file)));
+        }
+
+        public void SetValue(string tableName, string columnName, string selection, string value)
+        {
+            table table = _rastr.Tables.Item(tableName);
+            col column = table.Cols.Item(columnName);
+            table.SetSel(selection);
+            column.Calc(value.ToString());
+        }
+
         public DynamicResult RunDynamic()
         {
             var dynamicResult = new DynamicResult();

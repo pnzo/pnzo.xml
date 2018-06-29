@@ -16,6 +16,7 @@ namespace xml.task.Model.Commands
         public bool Success;
         public string Summary;
         public string ResultMessage;
+        private XElement element;
 
         protected Command()
         {
@@ -23,10 +24,17 @@ namespace xml.task.Model.Commands
 
         protected Command(XElement xElement)
         {
-            Name = xElement?.Attribute(@"name")?.Value;
+            element = xElement;
+            Name = element?.Attribute(@"name")?.Value;
         }
 
-        public abstract void Perform();
+        public virtual void Perform()
+        {
+            if (Name == null)
+            {
+                Name = element.ToString();
+            }
+        }
 
         public override string ToString()
         {
