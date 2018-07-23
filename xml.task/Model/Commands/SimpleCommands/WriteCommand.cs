@@ -39,7 +39,7 @@ namespace xml.task.Model.Commands.SimpleCommands
             }
             catch (Exception exception)
             {
-                ResultMessage = $@"Не удалось загрузить исходный файл в рабочее пространство RastrWIN. 
+                ResultMessage = $@"Не удалось загрузить файл {File} в рабочее пространство RastrWIN. 
 Сообщение: {exception.Message}";
                 return;
             }

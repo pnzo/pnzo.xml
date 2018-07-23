@@ -161,5 +161,15 @@ namespace xml.task
             if (saveFileDialog.ShowDialog() != true) return;
             TextEditor.Save(saveFileDialog.FileName);
         }
+
+        private void MenuItem_OnClick(object sender, RoutedEventArgs e)
+        {
+            TextEditor.Document.Insert(TextEditor.TextArea.Caret.Offset, @"<correction name=""""
+            file=""""
+			table=""""
+			column=""""
+			selection=""""
+			value=""""/>");
+        }
     }
 }

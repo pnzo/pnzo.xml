@@ -81,6 +81,7 @@
   <ItemGroup>
     <Compile Include="Model\Commands\Command.cs" />
     <Compile Include="Model\Commands\FolderCommands\DynamicFolderCommand.cs" />
+    <Compile Include="Model\Commands\FolderCommands\WriteFolderCommand.cs" />
     <Compile Include="Model\Commands\SimpleCommands\DynamicCommand.cs" />
     <Compile Include="Model\Commands\FolderCommand.cs" />
     <Compile Include="Model\Commands\SimpleCommands\WriteCommand.cs" />
@@ -121,6 +122,15 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\new.png" />
+    <Resource Include="Icons\open.png" />
+    <Resource Include="Icons\save.png" />
+    <Resource Include="Icons\saveas.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\run.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

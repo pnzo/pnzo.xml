@@ -30,15 +30,12 @@ namespace xml.task.Model.Commands
 
         public virtual void Perform()
         {
-            if (Name == null)
-            {
-                Name = element.ToString();
-            }
+
         }
 
         public override string ToString()
         {
-            return Name;
+            return Name ?? (Name = element.ToString());
         }
     }
 }

@@ -26,6 +26,7 @@ namespace xml.task.Model.Commands
 
         public override void Perform()
         {
+            base.Perform();
             var rastr = new RastrOperations();
             try
             {

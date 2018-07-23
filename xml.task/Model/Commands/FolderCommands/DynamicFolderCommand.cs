@@ -13,6 +13,7 @@ namespace xml.task.Model.Commands
     {
         public DynamicFolderCommand(XElement xElement) : base(xElement)
         {
+
         }
 
         public override List<Command> GenerateSimpleCommands()
@@ -22,16 +23,18 @@ namespace xml.task.Model.Commands
             {
                 return commands;
             }
-            string[] rstFiles = Directory.GetFiles(Folder,@"*.rst");
-            string[] scnFiles = Directory.GetFiles(Folder, @"*.scn");
+            var rstFiles = Directory.GetFiles(Folder,@"*.rst");
+            var scnFiles = Directory.GetFiles(Folder, @"*.scn");
             foreach (var rstFile in rstFiles)
             {
                 foreach (var scnFile in scnFiles)
                 {
-                    var command = new DynamicCommand();
-                    command.Rst = rstFile;
-                    command.Scn = scnFile;
-                    command.Name = $@"{Name} [{commands.Count}]";
+                    var command = new DynamicCommand
+                    {
+                        Rst = rstFile,
+                        Scn = scnFile,
+                        Name = $@"{Name} [{commands.Count}]"
+                    };
                     commands.Add(command);
                 }
             }

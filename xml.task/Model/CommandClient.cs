@@ -26,6 +26,8 @@ namespace xml.task
                         commands.AddRange(new DynamicFolderCommand(xmlElement).GenerateSimpleCommands()); break;
                     case @"correction":
                         commands.Add(new WriteCommand(xmlElement)); break;
+                    case @"correction_folder":
+                        commands.AddRange(new WriteFolderCommand(xmlElement).GenerateSimpleCommands()); break;
                     default:
                         break;
                 }

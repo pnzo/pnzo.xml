@@ -7,20 +7,60 @@
         xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit" x:Class="xml.task.MainWindow"
         mc:Ignorable="d"
         Title="pnzo" Height="450" Width="800" MinWidth="600">
-    <Grid>
+	<Grid>
 
-        <avalonedit:TextEditor
+		<Grid.RowDefinitions>
+			<RowDefinition Height="1*" />
+			<RowDefinition Height="9*" />
+		</Grid.RowDefinitions>
+		<ToolBar Height="32" Grid.Row="0">
+			<Button Click="NewButton_Click">
+				<Image Source="Icons/new.png" />
+			</Button>
+			<Separator />
+			<Button Click="OpenButton_Click">
+				<Image Source="Icons/open.png" />
+			</Button>
+			<Separator />
+			<Button Click="SaveButton_Click">
+				<Image Source="Icons/save.png" />
+			</Button>
+			<Separator />
+			<Button Click="SaveAsButton_Click">
+				<Image Source="Icons/saveas.png" />
+			</Button>
+			<Button Click="ExecutingButton_Click">
+				<Image Source="Icons/run.png" />
+			</Button>
+			<Button Content="Пример" Click="ExampleButton_Click"/>
+			<Label x:Name="FileLabel" Content="" VerticalAlignment="Center"/>
+		</ToolBar>
+		<avalonedit:TextEditor
 			Name="TextEditor"
+			Grid.Row="1"
 			FontFamily="Consolas"
 			FontSize="10pt"
 			SyntaxHighlighting="XML"
-			ShowLineNumbers="True" Margin="0,68,0,0" AllowDrop="True" PreviewDragOver="TextEditor_PreviewDragOver" PreviewDrop="TextEditor_PreviewDrop" BorderThickness="1" BorderBrush="Black"/>
-		<Button x:Name="SaveButton" Content="Save" HorizontalAlignment="Left" Margin="90,10,0,0" VerticalAlignment="Top" Width="75" Click="SaveButton_Click"/>
-        <Button x:Name="OpenButton" Content="Open" HorizontalAlignment="Left" Margin="250,10,0,0" VerticalAlignment="Top" Width="75" Click="OpenButton_Click"/>
-        <Button x:Name="ExecutingButton" Content="Run" Margin="0,37,10,0" VerticalAlignment="Top" Click="ExecutingButton_Click" HorizontalAlignment="Right" Width="75"/>
-        <Button x:Name="NewButton" Content="New" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="75" Click="NewButton_Click"/>
-        <Button x:Name="SaveAsButton" Content="Save as" HorizontalAlignment="Left" Margin="170,10,0,0" VerticalAlignment="Top" Width="75" Click="SaveAsButton_Click"/>
-        <Label x:Name="FileLabel" Content="" Margin="10,37,90,0" VerticalAlignment="Top"/>
-        <Button x:Name="ExampleButton" Content="Example" Margin="0,10,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="75" Click="ExampleButton_Click"/>
-    </Grid>
+			ShowLineNumbers="True" Margin="0,0,0,0" AllowDrop="True" PreviewDragOver="TextEditor_PreviewDragOver" PreviewDrop="TextEditor_PreviewDrop" BorderThickness="1" BorderBrush="Black">
+			<avalonedit:TextEditor.ContextMenu>
+				<ContextMenu>
+					<MenuItem Header="Шаблон">
+						<MenuItem Header="Расчет динамики (один файл)" Click="MenuItem_OnClick"/>
+						<MenuItem Header="Расчет динамики (папка)"/>
+						<MenuItem Header="Изменение модели (один файл)"/>
+						<MenuItem Header="Изменение модели (папка)"/>
+					</MenuItem>
+					<Separator/>
+					<MenuItem Command="Undo" />
+					<MenuItem Command="Redo" />
+					<Separator/>
+					<MenuItem Command="Cut" />
+					<MenuItem Command="Copy" />
+					<MenuItem Command="Paste" />
+				</ContextMenu>
+			</avalonedit:TextEditor.ContextMenu>
+		</avalonedit:TextEditor>
+
+
+	</Grid>
 </Window>
