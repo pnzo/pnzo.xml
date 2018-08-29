@@ -25,27 +25,6 @@ using System.Xml;
 
 namespace xml.task
 {
-
-    //class FileList : ObservableCollection<string>
-    //{
-    //    public FileList(params string[] extensions)
-    //    {
-    //        this.extensions = extensions.ToList<string>();
-
-    //    }
-
-    //    public List<string> extensions;
-    //    public void AddFile(string filename)
-    //    {
-    //        foreach (string s in this)
-    //        {
-    //            if (String.Compare(s, filename, true) == 0) return;
-    //        }
-    //        if (!File.Exists(filename)) return;
-    //        if (extensions.Count(s => s == System.IO.Path.GetExtension(filename)) > 0 || extensions.Count == 0) base.Insert(0,filename);
-    //    }
-    //}
-
     public partial class MainWindow
     {
         private readonly FoldingManager _foldingManager;
@@ -170,6 +149,79 @@ namespace xml.task
 			column=""""
 			selection=""""
 			value=""""/>");
+        }
+
+        private void button_Click(object sender, RoutedEventArgs e)
+        {
+            var rst = @"d:\01_Расчеты\АРЗКЗ КТЭЦ-2\Рустаб\тест для проги\001_rg1.rst";
+            var scn = @"d:\01_Расчеты\АРЗКЗ КТЭЦ-2\Рустаб\тест для проги\01.scn";
+            var rastr = new RastrOperations();
+            rastr.Load(scn, rst);
+            var res = rastr.RunDynamicWithExitFile();
+            Console.WriteLine(res);
+        }
+
+        private void button1_Click(object sender, RoutedEventArgs e)
+        {
+            var list_a = new List<string>
+            {
+                @"a1",@"a2",@"a3"
+            };
+            var list_b = new List<string>
+            {
+                @"b1",@"b2"
+            };
+            var list_c = new List<string>
+            {
+                @"c1",@"c2",@"c3",@"c4"
+            };
+            var lists = new List<List<string>>
+            {
+                list_a,list_b,list_c
+            };
+            var counts = new List<int>();
+            for (int i = 0; i < lists.Count; i++)
+            {
+                int c=1;
+                for (int j = i+1; j < lists.Count; j++)
+                {
+                    c *= lists[j].Count;
+                }
+                counts.Add(c);
+                Console.WriteLine(c);
+            }
+            var finalList = new List<List<string>>();
+            for (int i = 0; i < lists[0].Count*counts[0]; i++)
+            {
+                finalList.Add(new List<string>());
+            }
+
+            var k = 0;
+            for (int i = 0; i < lists.Count; i++)
+            {
+                var list = lists[i];
+                foreach (var element in list)
+                {
+                    for (int j = 0; j < counts[i]; j++)
+                    {
+                        finalList[k].Add(element);
+                        k++;
+                        if (k >= finalList.Count)
+                            k = 0;
+                    }
+                }
+            }
+
+            foreach (var item in finalList)
+            {
+                var s = @"";
+                foreach (var el in item)
+                {
+                    s += el;
+                }
+                Console.WriteLine(s);
+            }
+
         }
     }
 }

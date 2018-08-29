@@ -10,18 +10,12 @@ namespace xml.task.Model.Commands
 {
     public class DynamicCommand : Command
     {
-        public string Rst;
-        public string Scn;
-        public string Folder;
-
         public DynamicCommand() : base()
         {
         }
 
         public DynamicCommand(XElement xElement) : base(xElement)
         {
-            Rst = xElement?.Attribute(@"rst")?.Value;
-            Scn = xElement?.Attribute(@"scn")?.Value;
         }
 
         public override void Perform()
@@ -30,7 +24,7 @@ namespace xml.task.Model.Commands
             var rastr = new RastrOperations();
             try
             {
-                rastr.Load(Rst, Scn);
+                rastr.Load(Files.ToArray<string>());
             }
             catch (Exception exception)
             {
@@ -43,8 +37,8 @@ namespace xml.task.Model.Commands
 
             Success = result.IsSuccess;
             var calculationString = Success ? (result.IsStable ? @"Устойчиво" : "Неустойчиво") : @"Ошибка расчета";
-            ResultMessage = $@"Файл динамики: {Rst}
-Файл сценария: {Scn}
+            ResultMessage = $@"Файл динамики: Rst
+Файл сценария: Scn
 Результат: {calculationString}
 Сообщение Rustab: {result.ResultMessage}";
         }

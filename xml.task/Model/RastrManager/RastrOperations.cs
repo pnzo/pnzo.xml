@@ -15,6 +15,14 @@ namespace xml.task.Model.RastrManager
         public double TimeReached;
         public bool IsSuccess;
         public bool IsStable;
+
+        override public string ToString()
+        {
+            return $@"Результат: {ResultMessage}
+Расчитанное время: {TimeReached}
+Успешно: {IsSuccess} 
+Устойчиво: {IsStable}";
+        }
     }
 
     internal class RastrOperations
@@ -62,6 +70,29 @@ namespace xml.task.Model.RastrManager
             _rastr.Load(RG_KOD.RG_REPL, @"", FindTemplatePathWithExtension(@".dfw"));
             var dyn = _rastr.FWDynamic();
             var result = dyn.RunEMSmode();
+            dynamicResult.IsSuccess = result == RastrRetCode.AST_OK;
+            dynamicResult.IsStable = dyn.SyncLossCause == DFWSyncLossCause.SYNC_LOSS_NONE;
+            dynamicResult.ResultMessage = dyn.ResultMessage == @"" ? @" - " : dyn.ResultMessage;
+            dynamicResult.TimeReached = dyn.TimeReached;
+            return dynamicResult;
+        }
+
+        public DynamicResult RunDynamicWithExitFile()
+        {
+            var dynamicResult = new DynamicResult();
+            _rastr.Load(RG_KOD.RG_REPL, @"", FindTemplatePathWithExtension(@".dfw"));
+            var dyn = _rastr.FWDynamic();
+            var result = dyn.Run();
+
+            Console.WriteLine(_rastr.FWSnapshotFiles().Count);
+
+            double[,] v = _rastr.GetChainedGraphSnapshot(@"vetv",@"pl_iq", 0, 0);
+            Console.WriteLine(_rastr.GetMaxPoint());
+            for (int i = 0; i < v.GetLength(0); i++)
+            {
+                Console.WriteLine($@"{v[i, 1]}  --- {v[i, 0]}");
+            }
+
             dynamicResult.IsSuccess = result == RastrRetCode.AST_OK;
             dynamicResult.IsStable = dyn.SyncLossCause == DFWSyncLossCause.SYNC_LOSS_NONE;
             dynamicResult.ResultMessage = dyn.ResultMessage == @"" ? @" - " : dyn.ResultMessage;

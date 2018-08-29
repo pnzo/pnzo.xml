@@ -64,11 +64,6 @@ namespace xml.task
                 return;
             }
             ResultText.Text = command.ResultMessage;
-            if (command.ResultMessage!=null)
-            {
-                Clipboard.SetText(command.ResultMessage);
-            }
-
         }
 
         private void Window_Unloaded(object sender, RoutedEventArgs e)

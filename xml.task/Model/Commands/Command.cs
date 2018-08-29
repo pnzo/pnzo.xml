@@ -13,9 +13,12 @@ namespace xml.task.Model.Commands
     public abstract class Command
     {
         public string Name;
+        public int ID;
+        public List<string> Files;
         public bool Success;
         public string Summary;
         public string ResultMessage;
+
         private XElement element;
 
         protected Command()
