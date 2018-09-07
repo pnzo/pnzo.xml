@@ -35,7 +35,7 @@ namespace xml.task
         {
             InitializeComponent();
             TextEditor.Encoding = Encoding.UTF8;
-            var foldingUpdateTimer = new DispatcherTimer {Interval = TimeSpan.FromSeconds(0.5)};
+            var foldingUpdateTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(0.5) };
             foldingUpdateTimer.Tick += delegate { UpdateFoldings(); };
             foldingUpdateTimer.Start();
             TextEditor.TextArea.IndentationStrategy = new ICSharpCode.AvalonEdit.Indentation.DefaultIndentationStrategy();
@@ -87,9 +87,9 @@ namespace xml.task
             }
             catch (Exception exception)
             {
-                MessageBox.Show($@"Не удалось распознать задание: {exception.Message}",@"Ошибка",MessageBoxButton.OK,MessageBoxImage.Error);
+                MessageBox.Show($@"Не удалось распознать задание: {exception.Message}", @"Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
-            }     
+            }
             var taskWindow = new ExecutingWindow
             {
                 Owner = this,
@@ -136,19 +136,14 @@ namespace xml.task
 
         private void SaveAsButton_Click(object sender, RoutedEventArgs e)
         {
-            var saveFileDialog = new SaveFileDialog {Filter = @"XML files (*.xml)|*.xml|All files (*.*)|*.*"};
+            var saveFileDialog = new SaveFileDialog { Filter = @"XML files (*.xml)|*.xml|All files (*.*)|*.*" };
             if (saveFileDialog.ShowDialog() != true) return;
             TextEditor.Save(saveFileDialog.FileName);
         }
 
         private void MenuItem_OnClick(object sender, RoutedEventArgs e)
         {
-            TextEditor.Document.Insert(TextEditor.TextArea.Caret.Offset, @"<correction name=""""
-            file=""""
-			table=""""
-			column=""""
-			selection=""""
-			value=""""/>");
+
         }
 
         private void button_Click(object sender, RoutedEventArgs e)
@@ -163,64 +158,6 @@ namespace xml.task
 
         private void button1_Click(object sender, RoutedEventArgs e)
         {
-            var list_a = new List<string>
-            {
-                @"a1",@"a2",@"a3"
-            };
-            var list_b = new List<string>
-            {
-                @"b1",@"b2"
-            };
-            var list_c = new List<string>
-            {
-                @"c1",@"c2",@"c3",@"c4"
-            };
-            var lists = new List<List<string>>
-            {
-                list_a,list_b,list_c
-            };
-            var counts = new List<int>();
-            for (int i = 0; i < lists.Count; i++)
-            {
-                int c=1;
-                for (int j = i+1; j < lists.Count; j++)
-                {
-                    c *= lists[j].Count;
-                }
-                counts.Add(c);
-                Console.WriteLine(c);
-            }
-            var finalList = new List<List<string>>();
-            for (int i = 0; i < lists[0].Count*counts[0]; i++)
-            {
-                finalList.Add(new List<string>());
-            }
-
-            var k = 0;
-            for (int i = 0; i < lists.Count; i++)
-            {
-                var list = lists[i];
-                foreach (var element in list)
-                {
-                    for (int j = 0; j < counts[i]; j++)
-                    {
-                        finalList[k].Add(element);
-                        k++;
-                        if (k >= finalList.Count)
-                            k = 0;
-                    }
-                }
-            }
-
-            foreach (var item in finalList)
-            {
-                var s = @"";
-                foreach (var el in item)
-                {
-                    s += el;
-                }
-                Console.WriteLine(s);
-            }
 
         }
     }
