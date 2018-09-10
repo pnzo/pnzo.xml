@@ -13,13 +13,13 @@ namespace xml.task.Model.Commands
     public abstract class Command
     {
         public string Name;
-        public int ID;
+        public int Id;
         public List<string> Files;
-        public bool Success;
-        public string Summary;
+        public string Status;
         public string ResultMessage;
+        public string ErrorMessage;
 
-        private XElement element;
+        private readonly XElement _element;
 
         protected Command()
         {
@@ -27,8 +27,8 @@ namespace xml.task.Model.Commands
 
         protected Command(XElement xElement)
         {
-            element = xElement;
-            Name = element?.Attribute(@"name")?.Value;
+            _element = xElement;
+            Name = _element?.Attribute(@"name")?.Value;
         }
 
         public virtual void Perform()
@@ -38,7 +38,7 @@ namespace xml.task.Model.Commands
 
         public override string ToString()
         {
-            return Name ?? (Name = element.ToString());
+            return Name ?? (Name = _element.ToString());
         }
     }
 }

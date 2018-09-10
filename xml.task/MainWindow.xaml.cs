@@ -22,6 +22,7 @@ using xml.task.Model.RastrManager;
 using Microsoft.Win32;
 using System.Collections.ObjectModel;
 using System.Xml;
+using xml.task.Model;
 
 namespace xml.task
 {

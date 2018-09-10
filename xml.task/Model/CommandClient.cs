@@ -1,15 +1,12 @@
 ﻿using System;
-using System.IO;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Linq;
 using xml.task.Model.Commands;
 using xml.task.Model.Commands.SimpleCommands;
 
-namespace xml.task
+namespace xml.task.Model
 {
     internal static class CommandClient
     {
@@ -21,30 +18,33 @@ namespace xml.task
             foreach (var xmlElement in xmlDocument.Root.Elements())
             {
                 var filesInformation = GetFilesInformation(xmlElement);
-                switch (xmlElement.Name.LocalName)
+
+                foreach (var filesList in filesInformation)
                 {
-                    case @"stab_d":
-                        foreach (var filesList in filesInformation)
-                        {
-                            var command = new DynamicCommand(xmlElement)
-                            {
-                                ID = id,
-                                Files = filesList                             
-                            };
-                            commands.Add(command);
-                            id++;
-                        }
-                        break;
-                    case @"correction":
-                        commands.Add(new WriteCommand(xmlElement)); break;
-                    default:
-                        break;
+                    Command command;
+                    switch (xmlElement.Name.LocalName)
+                    {
+                        case @"stab_d":
+                            command = new DynamicCommand(xmlElement);
+                            break;
+                        case @"plots":
+                            command = new PlotCommand(xmlElement);
+                            break;
+                        default:
+                            command = new ErrorCommand(xmlElement);
+                            break;
+                    }
+                    command.Id = id;
+                    command.Files = filesList;
+                    commands.Add(command);
+                    id++;
+
                 }
             }
             foreach (var comm in commands)
             {
                 Console.WriteLine(comm.Name);
-                Console.WriteLine(comm.ID);
+                Console.WriteLine(comm.Id);
                 foreach (var list in comm.Files)
                 {
                     Console.WriteLine(list);
@@ -59,64 +59,55 @@ namespace xml.task
 
             foreach (var subElement in xmlElement.Elements())
             {
-                
                 var type = subElement.Name.LocalName;
-                if (type == @"file")
+                switch (type)
                 {
-                    var combination = new List<string>();
-                    var path = subElement?.Attribute(@"path")?.Value;
-                    if (path != null)
-                    {
-                        combination.Add(path);
-                    }
-                    if (combination.Count > 0)
-                        finalList.Add(combination);
-                }
-                else if (type == @"files")
-                {
-                    var combination = new List<string>();
-                    foreach (var fileElement in subElement.Elements())
-                    {
-                        var path = fileElement?.Attribute(@"path")?.Value;
-                        if (path != null)
+                    case @"file":
                         {
-                            combination.Add(path);
-                        }
-                    }
-                    if (combination.Count > 0)
-                        finalList.Add(combination);
-                }
-                else if (type == @"folder")
-                {
-                    var folderPath = subElement?.Attribute(@"path")?.Value;
-                    var varString = subElement?.Attribute(@"var")?.Value;
-                    if (varString == null)
-                        continue;
-                    var varExtensionsList = varString.Split(',');
-                    if (varExtensionsList.Length == 0)
-                        continue;
-                    var filesList = new List<List<string>>();
-                    foreach (var extension in varExtensionsList)
-                    {
-                        filesList.Add(Directory.GetFiles(folderPath, $@"*.{extension}").ToList<string>());
-                    }
-                    var combinationsList = GetCombinations(filesList);
+                            var combination = new List<string>();
+                            var path = subElement.Attribute(@"path")?.Value;
+                            if (path != null)
+                            {
+                                combination.Add(path);
+                            }
 
-                    var staticCombination = new List<string>();
-                    foreach (var fileElement in subElement.Elements())
-                    {
-                        var path = fileElement?.Attribute(@"path")?.Value;
-                        if (path != null)
+                            if (combination.Count > 0)
+                                finalList.Add(combination);
+                            break;
+                        }
+                    case @"files":
                         {
-                            staticCombination.Add(path);
+                            var combination = subElement.Elements()
+                                .Select(fileElement => fileElement?.Attribute(@"path")?.Value)
+                                .Where(path => path != null).ToList();
+                            if (combination.Count > 0)
+                                finalList.Add(combination);
+                            break;
                         }
-                    }
+                    case @"folder":
+                        var folderPath = subElement.Attribute(@"path")?.Value;
+                        var varString = subElement.Attribute(@"var")?.Value;
+                        if (varString == null || folderPath == null)
+                            continue;
+                        var varExtensionsList = varString.Split(',');
+                        if (varExtensionsList.Length == 0)
+                            continue;
+                        var filesList = varExtensionsList
+                            .Select(extension => Directory.GetFiles(folderPath, $@"*.{extension}").ToList())
+                            .Where(list => list.Count > 0).ToList();
+                        var combinationsList = GetCombinations(filesList);
 
-                    for (int i = 0; i < combinationsList.Count; i++)
-                    {
-                        combinationsList[i].AddRange(staticCombination);
-                    }
-                    finalList.AddRange(combinationsList);
+                        var staticCombination = subElement.Elements()
+                            .Select(fileElement => fileElement?.Attribute(@"path")?.Value)
+                            .Where(path => path != null).ToList();
+
+                        foreach (var combination in combinationsList)
+                        {
+                            combination.AddRange(staticCombination);
+                        }
+
+                        finalList.AddRange(combinationsList);
+                        break;
                 }
             }
 
@@ -128,35 +119,26 @@ namespace xml.task
             return xmlDocument.Root?.Attribute(@"name")?.Value ?? @"noname";
         }
 
-        private static List<List<string>> GetCombinations(List<List<string>> sourceList)
+        private static List<List<string>> GetCombinations(IReadOnlyList<List<string>> sourceList)
         {
             return GetCombinationsWithRecursion(sourceList, new List<List<string>>(), new int[sourceList.Count]);
         }
 
-        private static List<List<string>> GetCombinationsWithRecursion(List<List<string>> sourceList, List<List<string>> resultList, int[] counter)
+        private static List<List<string>> GetCombinationsWithRecursion(IReadOnlyList<List<string>> sourceList, List<List<string>> resultList, IList<int> counter)
         {
+            if (sourceList.Count == 0)
+                return resultList;
             var temporaryList = resultList;
-            var combinationList = new List<string>();
-            for (int i = 0; i < sourceList.Count; i++)
-            {
-                combinationList.Add(sourceList[i][counter[i]]);
-            }
+            var combinationList = sourceList.Select((t, i) => t[counter[i]]).ToList();
             temporaryList.Add(combinationList);
-            counter[counter.Length - 1]++;
-            for (int i = counter.Length - 1; i >= 0; i--)
+            counter[counter.Count - 1]++;
+            for (var i = counter.Count - 1; i >= 0; i--)
             {
-                if (counter[i] == sourceList[i].Count)
-                {
-                    if (i == 0)
-                    {
-                        return temporaryList;
-                    }
-                    else
-                    {
-                        counter[i - 1]++;
-                        counter[i] = 0;
-                    }
-                }
+                if (counter[i] != sourceList[i].Count) continue;
+                if (i == 0)
+                    return temporaryList;
+                counter[i - 1]++;
+                counter[i] = 0;
             }
             return GetCombinationsWithRecursion(sourceList, temporaryList, counter);
         }

@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Linq;
 using xml.task.Model.RastrManager;
 
-namespace xml.task.Model.Commands
+namespace xml.task.Model.Commands.SimpleCommands
 {
     public class DynamicCommand : Command
     {
-        public DynamicCommand() : base()
+        public DynamicCommand()
         {
         }
 
@@ -28,19 +25,14 @@ namespace xml.task.Model.Commands
             }
             catch (Exception exception)
             {
-                ResultMessage = $@"Не удалось загрузить исходные файлы в рабочее пространство RastrWIN. 
-Сообщение: {exception.Message}";
+                Status = "Ошибка";
+                ErrorMessage = $@"Ошибка загрузки файлов в Rastr. Сообщение: {exception.Message}";
                 return;
             }
 
             var result = rastr.RunDynamic();
-
-            Success = result.IsSuccess;
-            var calculationString = Success ? (result.IsStable ? @"Устойчиво" : "Неустойчиво") : @"Ошибка расчета";
-            ResultMessage = $@"Файл динамики: Rst
-Файл сценария: Scn
-Результат: {calculationString}
-Сообщение Rustab: {result.ResultMessage}";
+            Status = result.IsSuccess ? (result.IsStable ? @"Устойчиво" : "Неустойчиво") : @"Ошибка расчета динамики";
+            ResultMessage = $@"Сообщение Rustab: {result.ResultMessage}";
         }
     }
 }

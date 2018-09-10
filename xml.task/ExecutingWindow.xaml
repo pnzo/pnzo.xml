@@ -9,17 +9,11 @@
         Title="ExecutingWindow" Height="450" Width="600" Loaded="Window_Loaded" Unloaded="Window_Unloaded">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="10*"/>
             <RowDefinition Height="5*"/>
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
-        <ListBox x:Name="CommandListBox" SelectionChanged="CommandListBox_SelectionChanged"/>
-
-        <avalonedit:TextEditor Grid.Row="1" 
-                               Name="ResultText" 
-                               Margin="0,5,0,0"/>
-        <GridSplitter x:Name="GridSplitter" Height="5" Margin="0,0,0,0" Grid.Row="1" VerticalAlignment="Top" ResizeDirection="Rows" HorizontalAlignment="Stretch"/>
-        <ProgressBar x:Name="ProgressBar" Margin="0,0,0,0" Grid.Row="2"/>
+        <DataGrid Grid.Row="0"/>
+        <ProgressBar x:Name="ProgressBar" Margin="0,0,0,0" Grid.Row="1"/>
 
     </Grid>
 </Window>

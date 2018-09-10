@@ -81,6 +81,8 @@
   <ItemGroup>
     <Compile Include="Model\Commands\Command.cs" />
     <Compile Include="Model\Commands\SimpleCommands\DynamicCommand.cs" />
+    <Compile Include="Model\Commands\SimpleCommands\ErrorCommand.cs" />
+    <Compile Include="Model\Commands\SimpleCommands\PlotCommand.cs" />
     <Compile Include="Model\Commands\SimpleCommands\WriteCommand.cs" />
     <Compile Include="Model\RastrManager\RastrOperations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">

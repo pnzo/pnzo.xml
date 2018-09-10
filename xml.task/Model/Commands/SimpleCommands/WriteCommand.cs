@@ -8,7 +8,7 @@ using xml.task.Model.RastrManager;
 
 namespace xml.task.Model.Commands.SimpleCommands
 {
-    class WriteCommand : Command
+    internal class WriteCommand : Command
     {
         public string Table;
         public string Column;
@@ -16,7 +16,7 @@ namespace xml.task.Model.Commands.SimpleCommands
         public string Value;
         public string File;
 
-        public WriteCommand() : base()
+        public WriteCommand()
         {
         }
 
@@ -39,8 +39,8 @@ namespace xml.task.Model.Commands.SimpleCommands
             }
             catch (Exception exception)
             {
-                ResultMessage = $@"Не удалось загрузить файл {File} в рабочее пространство RastrWIN. 
-Сообщение: {exception.Message}";
+                Status = @"Ошибка";
+                ErrorMessage = $@"Ошибка загрузки {File} в Rastr. Сообщение: {exception.Message}";
                 return;
             }
 
@@ -51,15 +51,12 @@ namespace xml.task.Model.Commands.SimpleCommands
             }
             catch (Exception exception)
             {
-                ResultMessage = $@"Не удалось выполнить коррекцию файла. 
-Сообщение: {exception.Message}";
+                Status = @"Ошибка";
+                ErrorMessage = $@"Ошибка коррекции. Сообщение: {exception.Message}";
                 return;
             }
-            ResultMessage = $@"Коррекция файла выполнена успешно.
-Таблица: {Table}
-Параметр: {Column}
-Выборка: {Selection}
-Значение: {Value}"; 
+            Status = @"Успешно";
+            ResultMessage = $@"Таблица: {Table} Параметр: {Column} Выборка: {Selection} Значение: {Value}"; 
         }
     }
 }

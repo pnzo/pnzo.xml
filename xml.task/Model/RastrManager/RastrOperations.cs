@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Data;
 using ASTRALib;
 
 namespace xml.task.Model.RastrManager
@@ -16,7 +18,7 @@ namespace xml.task.Model.RastrManager
         public bool IsSuccess;
         public bool IsStable;
 
-        override public string ToString()
+        public override string ToString()
         {
             return $@"Результат: {ResultMessage}
 Расчитанное время: {TimeReached}
@@ -61,7 +63,12 @@ namespace xml.task.Model.RastrManager
             table table = _rastr.Tables.Item(tableName);
             col column = table.Cols.Item(columnName);
             table.SetSel(selection);
-            column.Calc(value.ToString());
+            column.Calc(value);
+        }
+
+        public void SetExitFilesDirectory(string path)
+        {
+            SetValue(@"com_dynamics", @"SnapPath", @"1", path);
         }
 
         public DynamicResult RunDynamic()
@@ -83,21 +90,27 @@ namespace xml.task.Model.RastrManager
             _rastr.Load(RG_KOD.RG_REPL, @"", FindTemplatePathWithExtension(@".dfw"));
             var dyn = _rastr.FWDynamic();
             var result = dyn.Run();
-
-            Console.WriteLine(_rastr.FWSnapshotFiles().Count);
-
-            double[,] v = _rastr.GetChainedGraphSnapshot(@"vetv",@"pl_iq", 0, 0);
-            Console.WriteLine(_rastr.GetMaxPoint());
-            for (int i = 0; i < v.GetLength(0); i++)
-            {
-                Console.WriteLine($@"{v[i, 1]}  --- {v[i, 0]}");
-            }
+            double[,] v = _rastr.GetChainedGraphSnapshot(@"vetv", @"pl_iq", 0, 0);
 
             dynamicResult.IsSuccess = result == RastrRetCode.AST_OK;
             dynamicResult.IsStable = dyn.SyncLossCause == DFWSyncLossCause.SYNC_LOSS_NONE;
             dynamicResult.ResultMessage = dyn.ResultMessage == @"" ? @" - " : dyn.ResultMessage;
             dynamicResult.TimeReached = dyn.TimeReached;
             return dynamicResult;
+        }
+
+        public List<Point> GetPointsFromExitFile(string tableName, string columnName, string selection)
+        {
+            table table = _rastr.Tables.Item(tableName);
+            table.SetSel(selection);
+            var index = table.FindNextSel[-1];
+            double[,] v = _rastr.GetChainedGraphSnapshot(columnName, columnName, index, 0);
+            var points = new List<Point>();
+            for (var i = 0; i < v.GetLength(0); i++)
+            {
+                points.Add(new Point(v[0, i], v[1, i]));
+            }
+            return points;
         }
     }
 }
