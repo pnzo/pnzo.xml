@@ -90,7 +90,6 @@ namespace xml.task.Model.RastrManager
             _rastr.Load(RG_KOD.RG_REPL, @"", FindTemplatePathWithExtension(@".dfw"));
             var dyn = _rastr.FWDynamic();
             var result = dyn.Run();
-            double[,] v = _rastr.GetChainedGraphSnapshot(@"vetv", @"pl_iq", 0, 0);
 
             dynamicResult.IsSuccess = result == RastrRetCode.AST_OK;
             dynamicResult.IsStable = dyn.SyncLossCause == DFWSyncLossCause.SYNC_LOSS_NONE;
@@ -103,12 +102,15 @@ namespace xml.task.Model.RastrManager
         {
             table table = _rastr.Tables.Item(tableName);
             table.SetSel(selection);
-            var index = table.FindNextSel[-1];
-            double[,] v = _rastr.GetChainedGraphSnapshot(columnName, columnName, index, 0);
             var points = new List<Point>();
+            var index = table.FindNextSel[-1];
+            if (index < 0)
+                return points;
+            double[,] v = _rastr.GetChainedGraphSnapshot(tableName, columnName, index, 0);
+
             for (var i = 0; i < v.GetLength(0); i++)
             {
-                points.Add(new Point(v[0, i], v[1, i]));
+                points.Add(new Point(v[i, 1], v[i, 0]));
             }
             return points;
         }

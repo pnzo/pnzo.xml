@@ -10,7 +10,6 @@ namespace xml.task
     public partial class ExecutingWindow
     {
         readonly CancellationTokenSource _cancelToken = new CancellationTokenSource();
-
         public List<Command> Commands;
         private Task _task;
         public ExecutingWindow()

@@ -61,6 +61,23 @@ namespace xml.task.Model.Commands.SimpleCommands
             var result = rastr.RunDynamicWithExitFile();
             Status = result.IsSuccess ? (result.IsStable ? @"Устойчиво" : "Неустойчиво") : @"Ошибка расчета динамики";
             ResultMessage = $@"Сообщение Rustab: {result.ResultMessage}";
+
+
+            foreach (var plot in Plots)
+            {
+                foreach (var curve in plot.Curves)
+                {
+                    try
+                    {
+                        curve.points = rastr.GetPointsFromExitFile(curve.Table, curve.Column, curve.Selection);
+                    }
+                    catch (Exception exception)
+                    {
+                        Status = "Ошибка";
+                        ErrorMessage = $@"Ошибка вывода зависимости для: {exception.Message}";
+                    }
+                }
+            }
         }
     }
 

@@ -12,12 +12,12 @@ namespace xml.task.Model.Commands
 {
     public abstract class Command
     {
-        public string Name;
-        public int Id;
-        public List<string> Files;
-        public string Status;
-        public string ResultMessage;
-        public string ErrorMessage;
+        public string Name { get; set; }
+        public int Id { get; set; }
+        public List<string> Files { get; set; }
+        public string Status { get; set; }
+        public string ResultMessage { get; set; }
+        public string ErrorMessage { get; set; }
 
         private readonly XElement _element;
 
@@ -27,6 +27,7 @@ namespace xml.task.Model.Commands
 
         protected Command(XElement xElement)
         {
+            Status = @"В очереди";
             _element = xElement;
             Name = _element?.Attribute(@"name")?.Value;
         }
