@@ -7,7 +7,5 @@
         xmlns:local="clr-namespace:xml.task.Windows"
         mc:Ignorable="d"
         Title="PlotWindow" Height="300" Width="300">
-    <Grid>
-        <oxy:PlotView Model="{Binding ExampleModel}" Grid.Row="2"/>
-    </Grid>
+    <Grid Name="MainGrid" Loaded="MainGrid_Loaded"/>
 </Window>

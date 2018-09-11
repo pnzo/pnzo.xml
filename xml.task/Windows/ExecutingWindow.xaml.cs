@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using xml.task.Model;
 using xml.task.Model.Commands;
+using xml.task.Model.Commands.SimpleCommands;
+using xml.task.Windows;
 
 namespace xml.task
 {
@@ -48,7 +50,14 @@ namespace xml.task
 
         private void DataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            Console.WriteLine(dataGrid.SelectedItem is Model.Commands.SimpleCommands.PlotCommand);
+            var plotWindow = new PlotWindow
+            {
+                Owner = this,
+                Title = @"111",
+                Topmost = true
+            };
+            plotWindow.command = dataGrid.SelectedItem as PlotCommand;
+            plotWindow.Show();
         }
     }
 }
