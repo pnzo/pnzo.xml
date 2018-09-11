@@ -19,7 +19,7 @@ namespace xml.task.Model
             {
                 var filesInformation = GetFilesInformation(xmlElement);
 
-                foreach (var filesList in filesInformation)
+                foreach (var List in filesInformation)
                 {
                     Command command;
                     switch (xmlElement.Name.LocalName)
@@ -35,7 +35,7 @@ namespace xml.task.Model
                             break;
                     }
                     command.Id = id;
-                    command.Files = filesList;
+                    command.Files = List;
                     commands.Add(command);
                     id++;
 
@@ -92,10 +92,10 @@ namespace xml.task.Model
                         var varExtensionsList = varString.Split(',');
                         if (varExtensionsList.Length == 0)
                             continue;
-                        var filesList = varExtensionsList
+                        var List = varExtensionsList
                             .Select(extension => Directory.GetFiles(folderPath, $@"*.{extension}").ToList())
                             .Where(list => list.Count > 0).ToList();
-                        var combinationsList = GetCombinations(filesList);
+                        var combinationsList = GetCombinations(List);
 
                         var staticCombination = subElement.Elements()
                             .Select(fileElement => fileElement?.Attribute(@"path")?.Value)

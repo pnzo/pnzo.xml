@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using xml.task.Model;
 using xml.task.Model.Commands;
 
 namespace xml.task
@@ -10,7 +11,7 @@ namespace xml.task
     public partial class ExecutingWindow
     {
         readonly CancellationTokenSource _cancelToken = new CancellationTokenSource();
-        public List<Command> Commands;
+        public Calculation Calculation { get; set; }
         private Task _task;
         public ExecutingWindow()
         {
@@ -25,9 +26,9 @@ namespace xml.task
 
         private void Run()
         {
-            Dispatcher.BeginInvoke(new Action(delegate { ProgressBar.Maximum = Commands.Count; }));
+            Dispatcher.BeginInvoke(new Action(delegate { ProgressBar.Maximum = Calculation.Commands.Count; }));
 
-            foreach (var command in Commands)
+            foreach (var command in Calculation.Commands)
             {
                 command.Perform();
                 Dispatcher.BeginInvoke(new Action(delegate 
@@ -43,6 +44,11 @@ namespace xml.task
         private void Window_Unloaded(object sender, RoutedEventArgs e)
         {
             _cancelToken.Cancel();
+        }
+
+        private void DataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            Console.WriteLine(dataGrid.SelectedItem is Model.Commands.SimpleCommands.PlotCommand);
         }
     }
 }

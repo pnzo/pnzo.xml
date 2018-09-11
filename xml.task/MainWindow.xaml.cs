@@ -94,10 +94,15 @@ namespace xml.task
             var taskWindow = new ExecutingWindow
             {
                 Owner = this,
-                Commands = CommandClient.GetCommands(doc),
+                Calculation = new Calculation
+                {
+                    Commands = CommandClient.GetCommands(doc),
+                    Status = @"Выполняется"
+                },
                 Title = CommandClient.GetHeader(doc),
                 Topmost = true
             };
+            taskWindow.DataContext = taskWindow.Calculation;
             taskWindow.Show();
         }
 
