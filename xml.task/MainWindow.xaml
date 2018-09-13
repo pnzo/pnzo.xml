@@ -60,8 +60,6 @@
 				</ContextMenu>
 			</avalonedit:TextEditor.ContextMenu>
 		</avalonedit:TextEditor>
-        <Button x:Name="button" Content="Button" HorizontalAlignment="Left" Margin="679,105,0,0" Grid.Row="1" VerticalAlignment="Top" Width="75" Click="button_Click"/>
-        <Button x:Name="button1" Content="Button" HorizontalAlignment="Left" Margin="679,197,0,0" Grid.Row="1" VerticalAlignment="Top" Width="75" Click="button1_Click"/>
 
 
     </Grid>

@@ -1,4 +1,5 @@
 ﻿using OxyPlot;
+using OxyPlot.Axes;
 //using OxyPlot.Wpf;
 using OxyPlot.Series;
 using System;
@@ -54,8 +55,26 @@ namespace xml.task.Windows
                 Title = plot.Name,
                 Subtitle = plot.Curves.Count.ToString(),
             };
+
+            var xAxis = new LinearAxis()
+            {
+                Position = AxisPosition.Bottom,
+                IsZoomEnabled = true,
+                MajorGridlineStyle = LineStyle.Solid,
+            };
+            var yAxis = new LinearAxis()
+            {
+                Position = AxisPosition.Left,
+                IsZoomEnabled = true,
+                MajorGridlineStyle = LineStyle.Solid,
+            };
+
+
+
             foreach (var curve in plot.Curves)
             {
+                if (curve.points.Count == 0)
+                    continue;               
                 var series = new LineSeries
                 {
                     Title = curve.Name,
@@ -65,7 +84,13 @@ namespace xml.task.Windows
                     series.Points.Add(new DataPoint(point.X, point.Y));
                 }
                 model.Series.Add(series);
+                var max = curve.points.Max(k => k.X);
+                var min = curve.points.Min(k => k.X);
+                xAxis.AbsoluteMinimum = min > xAxis.AbsoluteMinimum ? min : xAxis.AbsoluteMinimum;
+                xAxis.AbsoluteMaximum = max < xAxis.AbsoluteMaximum ? max : xAxis.AbsoluteMaximum;
             }
+            model.Axes.Add(xAxis);
+            model.Axes.Add(yAxis);
             return model;
         }
     }

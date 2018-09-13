@@ -151,20 +151,5 @@ namespace xml.task
         {
 
         }
-
-        private void button_Click(object sender, RoutedEventArgs e)
-        {
-            var rst = @"d:\01_Расчеты\АРЗКЗ КТЭЦ-2\Рустаб\тест для проги\001_rg1.rst";
-            var scn = @"d:\01_Расчеты\АРЗКЗ КТЭЦ-2\Рустаб\тест для проги\01.scn";
-            var rastr = new RastrOperations();
-            rastr.Load(scn, rst);
-            var res = rastr.RunDynamicWithExitFile();
-            Console.WriteLine(res);
-        }
-
-        private void button1_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
     }
 }

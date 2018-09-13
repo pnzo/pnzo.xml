@@ -64,7 +64,7 @@ namespace xml.task.Model.Commands.SimpleCommands
                 return;
             ResultMessage = $@"Сообщение Rustab: {result.ResultMessage}";
 
-            
+            Status = "Успешно";
             foreach (var plot in Plots)
             {
                 foreach (var curve in plot.Curves)
@@ -85,7 +85,7 @@ namespace xml.task.Model.Commands.SimpleCommands
                     }
                 }
             }
-            Status = "Успешно";
+
         }
     }
 

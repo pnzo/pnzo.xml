@@ -24,10 +24,10 @@ namespace xml.task.Model
                     Command command;
                     switch (xmlElement.Name.LocalName)
                     {
-                        case @"stab_d":
+                        case @"stability":
                             command = new DynamicCommand(xmlElement);
                             break;
-                        case @"plots":
+                        case @"graph":
                             command = new PlotCommand(xmlElement);
                             break;
                         default:

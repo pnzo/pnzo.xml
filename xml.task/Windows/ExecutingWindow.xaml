@@ -28,6 +28,13 @@
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
+                <DataGridTextColumn Width="3*" Header="Причина ошибки" Binding="{Binding Path=ErrorMessage}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="TextWrapping" Value="Wrap"></Setter>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
         <ProgressBar x:Name="ProgressBar" Margin="0,0,0,0" Grid.Row="1"/>
