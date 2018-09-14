@@ -15,6 +15,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using xml.task.Model.Commands;
 using xml.task.Model.Commands.SimpleCommands;
 
 namespace xml.task.Windows
@@ -25,8 +26,9 @@ namespace xml.task.Windows
     public partial class PlotWindow : Window
     {
         public PlotCommand command;
-        public PlotWindow()
+        public PlotWindow(Command command)
         {
+            this.command = command as PlotCommand;
             InitializeComponent();
         }
 

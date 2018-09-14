@@ -10,7 +10,7 @@
 	<Grid>
 
 		<Grid.RowDefinitions>
-			<RowDefinition Height="1*" />
+			<RowDefinition Height="50" />
 			<RowDefinition Height="9*" />
 		</Grid.RowDefinitions>
 		<ToolBar Height="32" Grid.Row="0">
@@ -33,7 +33,7 @@
 				<Image Source="Icons/run.png" />
 			</Button>
 			<Button Content="Пример" Click="ExampleButton_Click"/>
-			<Label x:Name="FileLabel" Content="" VerticalAlignment="Center"/>
+			<Label x:Name="FileLabel" Content="" VerticalAlignment="Center" HorizontalAlignment="Center"/>
 		</ToolBar>
 		<avalonedit:TextEditor
 			Name="TextEditor"
@@ -44,13 +44,17 @@
 			ShowLineNumbers="True" Margin="0,0,0,0" AllowDrop="True" PreviewDragOver="TextEditor_PreviewDragOver" PreviewDrop="TextEditor_PreviewDrop" BorderThickness="1" BorderBrush="Black">
 			<avalonedit:TextEditor.ContextMenu>
 				<ContextMenu>
-					<MenuItem Header="Шаблон">
-						<MenuItem Header="Расчет динамики (один файл)" Click="MenuItem_OnClick"/>
-						<MenuItem Header="Расчет динамики (папка)"/>
-						<MenuItem Header="Изменение модели (один файл)"/>
-						<MenuItem Header="Изменение модели (папка)"/>
+                    <MenuItem Header="Шаблон задания команды">
+                        <MenuItem Tag="stability" Header="Расчет динамики (stability)" Click="MenuItem_OnClick"/>
+                        <MenuItem Tag="write" Header="Изменение модели (write)" Click="MenuItem_OnClick"/>
+                        <MenuItem Tag="graph" Header="Построение графиков (graph)" Click="MenuItem_OnClick"/>
 					</MenuItem>
-					<Separator/>
+                    <MenuItem Header="Шаблон задания файлов">
+                        <MenuItem Tag="file" Header="Один файл (file)" Click="MenuItem_OnClick"/>
+                        <MenuItem Tag="files" Header="Набор файлов (files)" Click="MenuItem_OnClick"/>
+                        <MenuItem Tag="folder" Header="Папка (folder)" Click="MenuItem_OnClick"/>
+                    </MenuItem>
+                    <Separator/>
 					<MenuItem Command="Undo" />
 					<MenuItem Command="Redo" />
 					<Separator/>

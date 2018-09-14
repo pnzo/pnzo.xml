@@ -14,7 +14,6 @@ namespace xml.task.Model.Commands.SimpleCommands
         public string Column;
         public string Selection;
         public string Value;
-        public string File;
 
         public WriteCommand()
         {
@@ -26,7 +25,6 @@ namespace xml.task.Model.Commands.SimpleCommands
             Column = xElement?.Attribute(@"column")?.Value;
             Selection = xElement?.Attribute(@"selection")?.Value;
             Value = xElement?.Attribute(@"value")?.Value;
-            File = xElement?.Attribute(@"file")?.Value;
         }
 
         public override void Perform()
@@ -35,19 +33,22 @@ namespace xml.task.Model.Commands.SimpleCommands
             var rastr = new RastrOperations();
             try
             {
-                rastr.Load(File);
+                rastr.Load(Files.ToArray<string>());
             }
             catch (Exception exception)
             {
-                Status = @"Ошибка";
-                ErrorMessage = $@"Ошибка загрузки {File} в Rastr. Сообщение: {exception.Message}";
+                Status = "Ошибка";
+                ErrorMessage = $@"Ошибка загрузки файлов в Rastr. Сообщение: {exception.Message}";
                 return;
             }
 
             try
             {
-                rastr.SetValue(Table, Column, Selection, Value);
-                rastr.Save(File);
+                foreach (var file in Files)
+                {
+                    rastr.SetValue(Table, Column, Selection, Value);
+                    rastr.Save(file);
+                }
             }
             catch (Exception exception)
             {

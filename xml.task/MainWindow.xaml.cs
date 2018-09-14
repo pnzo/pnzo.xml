@@ -23,6 +23,7 @@ using Microsoft.Win32;
 using System.Collections.ObjectModel;
 using System.Xml;
 using xml.task.Model;
+using System.Windows.Controls;
 
 namespace xml.task
 {
@@ -145,11 +146,49 @@ namespace xml.task
             var saveFileDialog = new SaveFileDialog { Filter = @"XML files (*.xml)|*.xml|All files (*.*)|*.*" };
             if (saveFileDialog.ShowDialog() != true) return;
             TextEditor.Save(saveFileDialog.FileName);
+            LoadFileToTextEditor(saveFileDialog.FileName);
         }
 
         private void MenuItem_OnClick(object sender, RoutedEventArgs e)
         {
+            string insertion = @"";
+            var tag = (string)(sender as MenuItem).Tag;
+            switch (tag)
+            {
+                case @"stability":
+                    insertion = @"<stability name="">
 
+</stability>";
+                    break;
+                case @"write":
+                    insertion = @"<write name="""" table="""" column="""" selection="""" value="""">
+
+</write>";
+                    break;
+                case @"graph":
+                    insertion = @"<graph name="""">
+	<plot name="""">
+		<curve name="""" table="""" column="""" selection=""""/>
+	</plot>
+</graph>";
+                    break;
+                case @"file":
+                    insertion = @"<file path=""""/>";
+                    break;
+                case @"files":
+                    insertion = @"<files>
+    <file path=""""/>
+</files>";
+                    break;
+                case @"folder":
+                    insertion = @"<folder path="""" var="""">
+    <file path=""""/>
+</folder>";
+                    break;
+                default:
+                    break;
+            }
+            TextEditor.Document.Insert(TextEditor.TextArea.Caret.Offset, insertion);
         }
     }
 }

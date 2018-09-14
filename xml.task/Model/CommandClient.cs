@@ -30,6 +30,9 @@ namespace xml.task.Model
                         case @"graph":
                             command = new PlotCommand(xmlElement);
                             break;
+                        case @"write":
+                            command = new WriteCommand(xmlElement);
+                            break;
                         default:
                             command = new ErrorCommand(xmlElement);
                             break;

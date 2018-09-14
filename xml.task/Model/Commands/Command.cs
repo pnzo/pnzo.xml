@@ -67,7 +67,7 @@ namespace xml.task.Model.Commands
                 var s = @"";
                 for (int i = 0; i < Files.Count; i++)
                 {
-                    s += i!=Files.Count-1 ? $"{System.IO.Path.GetFileName(Files[i])}\r\n" : $"{System.IO.Path.GetFileName(Files[i])}"; 
+                    s += i != Files.Count-1 ? $"{System.IO.Path.GetFileName(Files[i])}\r\n" : $"{System.IO.Path.GetFileName(Files[i])}"; 
                 }
                 return s;
             }

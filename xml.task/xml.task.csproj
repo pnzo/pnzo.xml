@@ -68,6 +68,9 @@
     <Compile Include="Windows\PlotWindow.xaml.cs">
       <DependentUpon>PlotWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\StabilityWindow.xaml.cs">
+      <DependentUpon>StabilityWindow.xaml</DependentUpon>
+    </Compile>
     <Page Include="Windows\ExecutingWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -90,6 +93,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Windows\PlotWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\StabilityWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
