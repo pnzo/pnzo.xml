@@ -101,7 +101,6 @@ namespace xml.task
                     Status = @"Выполняется"
                 },
                 Title = CommandClient.GetHeader(doc),
-                Topmost = true
             };
             taskWindow.DataContext = taskWindow.Calculation;
             taskWindow.Show();
@@ -152,7 +151,7 @@ namespace xml.task
         private void MenuItem_OnClick(object sender, RoutedEventArgs e)
         {
             string insertion = @"";
-            var tag = (string)(sender as MenuItem).Tag;
+            var tag = (string)(sender as MenuItem)?.Tag;
             switch (tag)
             {
                 case @"stability":
@@ -184,8 +183,6 @@ namespace xml.task
                     insertion = @"<folder path="""" var="""">
     <file path=""""/>
 </folder>";
-                    break;
-                default:
                     break;
             }
             TextEditor.Document.Insert(TextEditor.TextArea.Caret.Offset, insertion);

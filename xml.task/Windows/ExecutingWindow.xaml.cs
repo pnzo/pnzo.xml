@@ -38,7 +38,7 @@ namespace xml.task
                     ProgressBar.Value++;
                 }));
             }
-            Dispatcher.BeginInvoke(new Action(delegate { Title += @" - finished"; }));
+            Dispatcher.BeginInvoke(new Action(delegate { Title += @" ЗАВЕРШЕНО"; }));
         }
 
         private void Window_Unloaded(object sender, RoutedEventArgs e)
@@ -49,10 +49,10 @@ namespace xml.task
         private void DataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             Command command;
-            Window window = new Window();
-            if (dataGrid.SelectedItem is PlotCommand)
+            var window = new Window();
+            if (DataGrid.SelectedItem is PlotCommand plotCommand)
             {
-                command = dataGrid.SelectedItem as PlotCommand;
+                command = plotCommand;
                 window = new PlotWindow(command);
             }
             else

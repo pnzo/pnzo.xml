@@ -8,33 +8,38 @@
         mc:Ignorable="d"
         DataContext="Calculation"
         Title="ExecutingWindow" Height="450" Width="600" Loaded="Window_Loaded" Unloaded="Window_Unloaded">
+    <Window.Resources>
+        <Style x:Key="CenterGridHeaderStyle" TargetType="DataGridColumnHeader">
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        </Style>
+        <Style x:Key="CenterTextBlockStyle" TargetType="TextBlock">
+            <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+        </Style>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="5*"/>
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
-        <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding Path=Commands}" Name="dataGrid" 
+        <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding Path=Commands}" Name="DataGrid" 
                       IsReadOnly="True" 
                       CanUserAddRows="False" 
                       CanUserSortColumns="True" HorizontalGridLinesBrush="LightGray" VerticalGridLinesBrush="LightGray" Margin="0,0,0,0" MouseDoubleClick="DataGrid_MouseDoubleClick">
             <DataGrid.Columns>
-                <DataGridTextColumn Width="1*" Header="Id" Binding="{Binding Path=Id}"></DataGridTextColumn>
-                <DataGridTextColumn Width="3*" Header="Имя" Binding="{Binding Path=Name}"></DataGridTextColumn>
-                <DataGridTextColumn Width="3*" Header="Состояние" Binding="{Binding Path=Status}"></DataGridTextColumn>
-                <DataGridTextColumn Width="3*" Header="Файлы в расчет" Binding="{Binding Path=FilesString}">
-                    <DataGridTextColumn.ElementStyle>
-                        <Style TargetType="TextBlock">
-                            <Setter Property="TextWrapping" Value="Wrap"></Setter>
-                        </Style>
-                    </DataGridTextColumn.ElementStyle>
-                </DataGridTextColumn>
-                <DataGridTextColumn Width="3*" Header="Причина ошибки" Binding="{Binding Path=ErrorMessage}">
-                    <DataGridTextColumn.ElementStyle>
-                        <Style TargetType="TextBlock">
-                            <Setter Property="TextWrapping" Value="Wrap"></Setter>
-                        </Style>
-                    </DataGridTextColumn.ElementStyle>
-                </DataGridTextColumn>
+                <DataGridTextColumn Width="1*" Header="Состояние" Binding="{Binding Path=Status}" 
+                                    HeaderStyle="{StaticResource CenterGridHeaderStyle}"
+                                    ElementStyle="{StaticResource CenterTextBlockStyle}"/>
+                <DataGridTextColumn Width="40" Header="№" Binding="{Binding Path=Id}" 
+                                    HeaderStyle="{StaticResource CenterGridHeaderStyle}" 
+                                    ElementStyle="{StaticResource CenterTextBlockStyle}"/>
+                <DataGridTextColumn Width="200" Header="Имя" Binding="{Binding Path=Name}" 
+                                    HeaderStyle="{StaticResource CenterGridHeaderStyle}"
+                                    ElementStyle="{StaticResource CenterTextBlockStyle}"/>
+                <DataGridTextColumn Width="3*" Header="Файлы в расчет" Binding="{Binding Path=FilesString}" 
+                                    HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
+                <DataGridTextColumn Width="3*" Header="Причина ошибки" Binding="{Binding Path=ErrorMessage}"
+                                    HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
             </DataGrid.Columns>
         </DataGrid>
         <ProgressBar x:Name="ProgressBar" Margin="0,0,0,0" Grid.Row="1"/>

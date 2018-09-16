@@ -11,31 +11,25 @@ namespace xml.task.Model
 {
    public class Calculation : INotifyPropertyChanged
     {
-        private List<Command> commands;
-        private string status;
+        private List<Command> _commands;
+        private string _status;
 
         public List<Command> Commands
         {
-            get
-            {
-                return commands;
-            }
+            get => _commands;
             set
             {
-                commands = value;
-                OnPropertyChanged("Commands");
+                _commands = value;
+                OnPropertyChanged();
             }
         }
         public string Status
         {
-            get
-            {
-                return status;
-            }
+            get => _status;
             set
             {
-                status = value;
-                OnPropertyChanged("Status");
+                _status = value;
+                OnPropertyChanged();
             }
         }
 

@@ -25,32 +25,30 @@ namespace xml.task.Windows
     /// </summary>
     public partial class PlotWindow : Window
     {
-        public PlotCommand command;
+        public PlotCommand Command;
         public PlotWindow(Command command)
         {
-            this.command = command as PlotCommand;
+            this.Command = command as PlotCommand;
             InitializeComponent();
         }
 
         private void MainGrid_Loaded(object sender, RoutedEventArgs e)
         {
-            for (int i = 0; i < command.Plots.Count; i++)
+            for (var i = 0; i < Command.Plots.Count; i++)
             {
-                var plot = command.Plots[i];
+                var plot = Command.Plots[i];
                 MainGrid.RowDefinitions.Add(new RowDefinition
                 {
                     Height = new GridLength(1, GridUnitType.Star),
                 });
-                var plotView = new OxyPlot.Wpf.PlotView();
-                plotView.Model = GetPlotModel(plot);
+                var plotView = new OxyPlot.Wpf.PlotView {Model = GetPlotModel(plot)};
                 Grid.SetRow(plotView, i);
                 MainGrid.Children.Add(plotView);
-
             }
 
         }
 
-        private PlotModel GetPlotModel(Model.Commands.SimpleCommands.Plot plot)
+        private static PlotModel GetPlotModel(Plot plot)
         {
             var model = new PlotModel
             {
@@ -75,19 +73,19 @@ namespace xml.task.Windows
 
             foreach (var curve in plot.Curves)
             {
-                if (curve.points.Count == 0)
+                if (curve.Points == null || curve.Points.Count == 0)
                     continue;               
                 var series = new LineSeries
                 {
                     Title = curve.Name,
                 };
-                foreach (var point in curve.points)
+                foreach (var point in curve.Points)
                 {
                     series.Points.Add(new DataPoint(point.X, point.Y));
                 }
                 model.Series.Add(series);
-                var max = curve.points.Max(k => k.X);
-                var min = curve.points.Min(k => k.X);
+                var max = curve.Points.Max(k => k.X);
+                var min = curve.Points.Min(k => k.X);
                 xAxis.AbsoluteMinimum = min > xAxis.AbsoluteMinimum ? min : xAxis.AbsoluteMinimum;
                 xAxis.AbsoluteMaximum = max < xAxis.AbsoluteMaximum ? max : xAxis.AbsoluteMaximum;
             }

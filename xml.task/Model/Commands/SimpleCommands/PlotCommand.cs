@@ -60,7 +60,7 @@ namespace xml.task.Model.Commands.SimpleCommands
 
             var result = rastr.RunDynamicWithExitFile();
             Status = result.IsSuccess ? (result.IsStable ? @"Устойчиво" : "Неустойчиво") : @"Ошибка расчета динамики";
-            if (!result.IsStable || !result.IsSuccess)
+            if (!result.IsSuccess)
                 return;
             ResultMessage = $@"Сообщение Rustab: {result.ResultMessage}";
 
@@ -71,17 +71,15 @@ namespace xml.task.Model.Commands.SimpleCommands
                 {
                     try
                     {
-                        curve.points = rastr.GetPointsFromExitFile(curve.Table, curve.Column, curve.Selection);
-                        if (curve.points.Count == 0)
-                        {
-                            Status = "Ошибка";
-                            ErrorMessage = $@"Выведены не все зависимости";
-                        }
+                        curve.Points = rastr.GetPointsFromExitFile(curve.Table, curve.Column, curve.Selection);
+                        if (curve.Points.Count != 0) continue;
+                        Status = "Ошибка";
+                        ErrorMessage = @"Выведены не все зависимости";
                     }
                     catch (Exception exception)
                     {
                         Status = "Ошибка";
-                        ErrorMessage = $@"Ошибка вывода зависимости для: {exception.Message}";
+                        ErrorMessage = $@"Ошибка вывода зависимости. {exception.Message}";
                     }
                 }
             }
@@ -101,6 +99,6 @@ namespace xml.task.Model.Commands.SimpleCommands
         public string Table;
         public string Column;
         public string Selection;
-        public List<Point> points;
+        public List<Point> Points;
     }
 }
