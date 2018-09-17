@@ -58,6 +58,8 @@ namespace xml.task.Model.Commands.SimpleCommands
                 return;
             }
 
+            rastr.SetExitFileTemplate($@"""{Id}_{Name}""");
+            rastr.SetExitFilesDirectory($@"{Environment.CurrentDirectory}\exitfiles\");
             var result = rastr.RunDynamicWithExitFile();
             Status = result.IsSuccess ? (result.IsStable ? @"Устойчиво" : "Неустойчиво") : @"Ошибка расчета динамики";
             if (!result.IsSuccess)

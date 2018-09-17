@@ -187,5 +187,10 @@ namespace xml.task
             }
             TextEditor.Document.Insert(TextEditor.TextArea.Caret.Offset, insertion);
         }
+
+        private void Window_Unloaded(object sender, RoutedEventArgs e)
+        {
+            Environment.Exit(0);
+        }
     }
 }

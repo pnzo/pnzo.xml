@@ -38,6 +38,7 @@ namespace xml.task
                     ProgressBar.Value++;
                 }));
             }
+            _cancelToken.Cancel();
             Dispatcher.BeginInvoke(new Action(delegate { Title += @" ЗАВЕРШЕНО"; }));
         }
 
@@ -50,16 +51,16 @@ namespace xml.task
         {
             Command command;
             var window = new Window();
-            if (DataGrid.SelectedItem is PlotCommand plotCommand)
+            if (DataGrid.SelectedItem is PlotCommand)
             {
-                command = plotCommand;
+                command = DataGrid.SelectedItem as PlotCommand;
                 window = new PlotWindow(command);
             }
             else
             {
                 command = new ErrorCommand();
             }
-            
+
             window.Owner = this;
             window.Title = $@"{command.Name} [{command.Id}]";
             window.Width = 600;

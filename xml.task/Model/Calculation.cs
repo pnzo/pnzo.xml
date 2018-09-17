@@ -16,7 +16,10 @@ namespace xml.task.Model
 
         public List<Command> Commands
         {
-            get => _commands;
+            get
+            {
+             return _commands;
+            }
             set
             {
                 _commands = value;
@@ -25,7 +28,10 @@ namespace xml.task.Model
         }
         public string Status
         {
-            get => _status;
+            get
+            {
+                return _status;
+            }
             set
             {
                 _status = value;

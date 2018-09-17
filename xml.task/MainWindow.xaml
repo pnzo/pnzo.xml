@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:xml.task"
         xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit" x:Class="xml.task.MainWindow"
         mc:Ignorable="d"
-        Title="pnzo" Height="450" Width="800" MinWidth="600">
+        Title="pnzo" Height="450" Width="800" MinWidth="600" Unloaded="Window_Unloaded">
 	<Grid>
 
 		<Grid.RowDefinitions>

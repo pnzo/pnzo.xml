@@ -68,7 +68,12 @@ namespace xml.task.Model.RastrManager
 
         public void SetExitFilesDirectory(string path)
         {
-            SetValue(@"com_dynamics", @"SnapPath", @"1", path);
+            SetValue(@"com_dynamics", @"SnapPath", @"1", @"""" + path + @"""");
+        }
+
+        public void SetExitFileTemplate(string template)
+        {
+            SetValue(@"com_dynamics", @"SnapTemplate", @"1", template);
         }
 
         public DynamicResult RunDynamic()
@@ -88,6 +93,8 @@ namespace xml.task.Model.RastrManager
         {
             var dynamicResult = new DynamicResult();
             _rastr.Load(RG_KOD.RG_REPL, @"", FindTemplatePathWithExtension(@".dfw"));
+
+            SetValue(@"com_dynamics", @"SnapAutoLoad", @"1", 1.ToString());
             var dyn = _rastr.FWDynamic();
             var result = dyn.Run();
 
