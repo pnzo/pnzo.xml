@@ -5,8 +5,8 @@
 
 ## Немного о том, как это использовать
 1. [Начало работы](docs/getstarted.md)
- + [Внешний вид](#getstarted.md#interface)
- + [Разметка](#getstarted.md#markdown)
+ + [Внешний вид](getstarted.md#interface)
+ + [Разметка](getstarted.md#markdown)
 1. Команды
  + Расчет динамической устойчивости
  + Вывод графиков переходных процессов
