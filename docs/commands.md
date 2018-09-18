@@ -14,9 +14,9 @@
 
 В примере ниже `<stability>` - открывающий тег, `</stability>` - закрывающий тег для основного элемента, `<folder/>` - тег вложенного элемента, он является одновременно открывающим и закрывающим, так как сам не содержит вложенных элементов
 ```xml
-	<stability name="Динамическая устойчивость">
-		<folder path="default" var="rst,scn"/>
-	</stability>
+<stability name="Динамическая устойчивость">
+	<folder path="default" var="rst,scn"/>
+</stability>
 ```
 
 2. **Параметры команды** - указывают программе на исходные данные, необходимые в процессе выполнения. Делятся на:
@@ -27,9 +27,9 @@
 
 Пример: 
 ```xml
-	<write name="Изменение модели" table="node" column="uhom" selection="uhom=110" value="115">
-		<file path="default\01.Нормальная схема сети.rst"/>
-	</write>
+<write name="Изменение модели" table="node" column="uhom" selection="uhom=110" value="115">
+	<file path="default\01.Нормальная схема сети.rst"/>
+</write>
 ```
 В этом примере параметрами команды **write** являются *table, column, selection, value*
 
@@ -37,17 +37,17 @@
 
 Пример: 
 ```xml
-	<graph name = "графики">
-		<plot name="Напряжения">
-			<curve name="КТЭЦ-2" table="node" column="vras" selection="ny=301"/>
-			<curve name="Советск" table="node" column="vras" selection="ny=40707301"/>
-			<curve name="ПТЭС" table="node" column="vras" selection="ny=40707260"/>
-		</plot>
-		<files>
-			<file path="default\02.В ремонте Л-326.rst"/>
-			<file path="default\Отключение Л-442 действием УРОВ при К11 с отказом ВЛ-442.scn"/>
-		</files>
-	</graph>
+<graph name = "графики">
+	<plot name="Напряжения">
+		<curve name="КТЭЦ-2" table="node" column="vras" selection="ny=301"/>
+		<curve name="Советск" table="node" column="vras" selection="ny=40707301"/>
+		<curve name="ПТЭС" table="node" column="vras" selection="ny=40707260"/>
+	</plot>
+	<files>
+		<file path="default\02.В ремонте Л-326.rst"/>
+		<file path="default\Отключение Л-442 действием УРОВ при К11 с отказом ВЛ-442.scn"/>
+	</files>
+</graph>
 ```
 В этом примере вложенными элементами команды **write** являются **plot**, **files**. В свою очередь, элемент **plot** содержит 2 вложенных элемента **curve**, элемент **files** содержит 2 вложенных элемента **file**
 
@@ -68,6 +68,10 @@
 
 Не может иметь вложенных элементов
 
+Пример:
+```xml
+<file path="default\02.В ремонте Л-326.rst"/>
+```  
 ### files
 В расчет попадает несколько указанных файлов
 
@@ -77,6 +81,13 @@
    
 В каждом элементе **files** может быть сколько угодно вложенных элементов **file**
 
+Пример:
+```xml
+<files>
+	<file path="default\01.Нормальная схема сети.rst"/>
+	<file path="default\Отключение Л-441 действием УРОВ при К11 с отказом ВЛ-441.scn"/>
+</files>
+```  
 ### folder
 В расчет попадает несколько файлов из указанной папки
 
@@ -90,6 +101,14 @@
    
 В каждом элементе **folder** может быть сколько угодно вложенных элементов **file**
 
+Пример:
+```xml
+<folder path="default" var="rst,scn">
+	<file path="лапну.dwf"/>
+</folder>
+```  
+**Все пути к файлам могут быть как полными, так и относительными**
+
 ## stability
 #### Расчет динамической устойчивости
 Производит простой расчет переходного процесса с проверкой на наличие динамической устойчивости
@@ -99,9 +118,9 @@
 
 Пример:
 ```xml
-	<stability name="Динамическая устойчивость">
-		<folder path="default" var="rst,scn"/>
-	</stability>
+<stability name="Динамическая устойчивость">
+	<folder path="default" var="rst,scn"/>
+</stability>
 ```  
 ## write
 #### Изменение расчетной модели
@@ -116,9 +135,9 @@
    
 Пример:
 ```xml
-	<write name="Изменение модели"	table="node" column="uhom" selection="uhom=110"	value="115">
-		<file path="default\01.Нормальная схема сети.rst"/>
-	</write>
+<write name="Изменение модели"	table="node" column="uhom" selection="uhom=110"	value="115">
+	<file path="default\01.Нормальная схема сети.rst"/>
+</write>
 ```  
 ## graph
 #### Вывод графиков переходного процесса
@@ -143,25 +162,25 @@
    
 Пример:
 ```xml
-	<graph name = "графики">
-		<!--- Описание графиков -->
-		<plot name="Напряжения">
-			<curve name="КТЭЦ-2" table="node" column="vras" selection="ny=301"/>
-			<curve name="Советск" table="node" column="vras" selection="ny=40707301"/>
-			<curve name="ПТЭС" table="node" column="vras" selection="ny=40707260"/>
-		</plot>
-		<plot name="Углы роторов">
-			<curve name="КТЭЦ-2" table="Generator" column="Delta" selection="Num=40707602"/>
-			<curve name="ПТЭС" table="Generator" column="Delta" selection="Num=40707262"/>
-		</plot>
-		<!--- Описание наборов файлов, попадающих в расчет -->		
-		<files>
-			<file path="default\01.Нормальная схема сети.rst"/>
-			<file path="default\Отключение Л-441 действием УРОВ при К11 с отказом ВЛ-441.scn"/>
-		</files>
-		<files>
-			<file path="default\02.В ремонте Л-326.rst"/>
-			<file path="default\Отключение Л-442 действием УРОВ при К11 с отказом ВЛ-442.scn"/>
-		</files>
-	</graph>
+<graph name = "графики">
+	<!--- Описание графиков -->
+	<plot name="Напряжения">
+		<curve name="КТЭЦ-2" table="node" column="vras" selection="ny=301"/>
+		<curve name="Советск" table="node" column="vras" selection="ny=40707301"/>
+		<curve name="ПТЭС" table="node" column="vras" selection="ny=40707260"/>
+	</plot>
+	<plot name="Углы роторов">
+		<curve name="КТЭЦ-2" table="Generator" column="Delta" selection="Num=40707602"/>
+		<curve name="ПТЭС" table="Generator" column="Delta" selection="Num=40707262"/>
+	</plot>
+	<!--- Описание наборов файлов, попадающих в расчет -->		
+	<files>
+		<file path="default\01.Нормальная схема сети.rst"/>
+		<file path="default\Отключение Л-441 действием УРОВ при К11 с отказом ВЛ-441.scn"/>
+	</files>
+	<files>
+		<file path="default\02.В ремонте Л-326.rst"/>
+		<file path="default\Отключение Л-442 действием УРОВ при К11 с отказом ВЛ-442.scn"/>
+	</files>
+</graph>
 ```  
