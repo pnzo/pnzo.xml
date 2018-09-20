@@ -53,7 +53,6 @@ namespace xml.task.Windows
             var model = new PlotModel
             {
                 Title = plot.Name,
-                Subtitle = plot.Curves.Count.ToString(),
             };
 
             var xAxis = new LinearAxis()

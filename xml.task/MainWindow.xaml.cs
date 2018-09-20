@@ -24,6 +24,7 @@ using System.Collections.ObjectModel;
 using System.Xml;
 using xml.task.Model;
 using System.Windows.Controls;
+using System.Threading.Tasks;
 
 namespace xml.task
 {
@@ -49,6 +50,9 @@ namespace xml.task
                 ShowAttributesWhenFolded = true
             };
             _foldingStrategy.UpdateFoldings(_foldingManager, TextEditor.Document);
+
+            var task = new Task(DeleteExitFiles);
+            task.Start();
         }
 
         private void UpdateFoldings()
@@ -191,6 +195,24 @@ namespace xml.task
         private void Window_Unloaded(object sender, RoutedEventArgs e)
         {
             Environment.Exit(0);
+        }
+
+        private void DeleteExitFiles()
+        {
+            if (!Directory.Exists($@"{Environment.CurrentDirectory}\exitfiles"))
+                return;
+
+            var files = Directory.GetFiles($@"{Environment.CurrentDirectory}\exitfiles");
+            foreach (var file in files)
+            {
+                try
+                {
+                    File.Delete(file);
+                }
+                catch (Exception)
+                {
+                }
+            }
         }
     }
 }

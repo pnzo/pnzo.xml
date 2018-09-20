@@ -7,7 +7,7 @@
         xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit" x:Class="xml.task.ExecutingWindow"
         mc:Ignorable="d"
         DataContext="Calculation"
-        Title="ExecutingWindow" Height="450" Width="600" Loaded="Window_Loaded" Unloaded="Window_Unloaded">
+        Title="ExecutingWindow" Height="600" Width="800" Loaded="Window_Loaded" Unloaded="Window_Unloaded">
     <Window.Resources>
         <Style x:Key="CenterGridHeaderStyle" TargetType="DataGridColumnHeader">
             <Setter Property="HorizontalContentAlignment" Value="Center"/>
@@ -27,7 +27,7 @@
                       CanUserAddRows="False" 
                       CanUserSortColumns="True" HorizontalGridLinesBrush="LightGray" VerticalGridLinesBrush="LightGray" Margin="0,0,0,0" MouseDoubleClick="DataGrid_MouseDoubleClick">
             <DataGrid.Columns>
-                <DataGridTextColumn Width="1*" Header="Состояние" Binding="{Binding Path=Status}" 
+                <DataGridTextColumn Width="150" Header="Состояние" Binding="{Binding Path=Status}" 
                                     HeaderStyle="{StaticResource CenterGridHeaderStyle}"
                                     ElementStyle="{StaticResource CenterTextBlockStyle}"/>
                 <DataGridTextColumn Width="40" Header="№" Binding="{Binding Path=Id}" 

@@ -11,6 +11,7 @@ namespace xml.task.Model.Commands.SimpleCommands
     public class PlotCommand : Command
     {
         public List<Plot> Plots = new List<Plot>();
+        public string Time;
 
         public PlotCommand()
         {
@@ -18,6 +19,7 @@ namespace xml.task.Model.Commands.SimpleCommands
 
         public PlotCommand(XElement xElement) : base(xElement)
         {
+            Time = xElement?.Attribute(@"time")?.Value;
             foreach (var plotElement in xElement.Elements())
             {
                 if (plotElement.Name.LocalName != @"plot")
@@ -57,8 +59,9 @@ namespace xml.task.Model.Commands.SimpleCommands
                 ErrorMessage = $@"Ошибка загрузки файлов в Rastr. Сообщение: {exception.Message}";
                 return;
             }
-
-            rastr.SetExitFileTemplate($@"""{Id}_{Name}""");
+            if (Time != null)
+                rastr.SetDynamicTime(Time);
+            rastr.SetExitFileTemplate($@"""{Id}_{Name}.sna""");
             rastr.SetExitFilesDirectory($@"{Environment.CurrentDirectory}\exitfiles\");
             var result = rastr.RunDynamicWithExitFile();
             Status = result.IsSuccess ? (result.IsStable ? @"Устойчиво" : "Неустойчиво") : @"Ошибка расчета динамики";

@@ -76,6 +76,11 @@ namespace xml.task.Model.RastrManager
             SetValue(@"com_dynamics", @"SnapTemplate", @"1", template);
         }
 
+        public void SetDynamicTime(string time)
+        {
+            SetValue(@"com_dynamics", @"Tras", @"1", time);
+        }
+
         public DynamicResult RunDynamic()
         {
             var dynamicResult = new DynamicResult();
