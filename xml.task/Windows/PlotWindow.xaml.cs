@@ -1,0 +1,96 @@
+﻿using OxyPlot;
+using OxyPlot.Axes;
+//using OxyPlot.Wpf;
+using OxyPlot.Series;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
+using xml.task.Model.Commands;
+using xml.task.Model.Commands.SimpleCommands;
+
+namespace xml.task.Windows
+{
+    /// <summary>
+    /// Логика взаимодействия для PlotWindow.xaml
+    /// </summary>
+    public partial class PlotWindow : Window
+    {
+        public PlotCommand Command;
+        public PlotWindow(Command command)
+        {
+            this.Command = command as PlotCommand;
+            InitializeComponent();
+        }
+
+        private void MainGrid_Loaded(object sender, RoutedEventArgs e)
+        {
+            for (var i = 0; i < Command.Plots.Count; i++)
+            {
+                var plot = Command.Plots[i];
+                MainGrid.RowDefinitions.Add(new RowDefinition
+                {
+                    Height = new GridLength(1, GridUnitType.Star),
+                });
+                var plotView = new OxyPlot.Wpf.PlotView {Model = GetPlotModel(plot)};
+                Grid.SetRow(plotView, i);
+                MainGrid.Children.Add(plotView);
+            }
+
+        }
+
+        private static PlotModel GetPlotModel(Plot plot)
+        {
+            var model = new PlotModel
+            {
+                Title = plot.Name,
+            };
+
+            var xAxis = new LinearAxis()
+            {
+                Position = AxisPosition.Bottom,
+                IsZoomEnabled = true,
+                MajorGridlineStyle = LineStyle.Solid,
+            };
+            var yAxis = new LinearAxis()
+            {
+                Position = AxisPosition.Left,
+                IsZoomEnabled = true,
+                MajorGridlineStyle = LineStyle.Solid,
+            };
+
+
+
+            foreach (var curve in plot.Curves)
+            {
+                if (curve.Points == null || curve.Points.Count == 0)
+                    continue;               
+                var series = new LineSeries
+                {
+                    Title = curve.Name,
+                };
+                foreach (var point in curve.Points)
+                {
+                    series.Points.Add(new DataPoint(point.X, point.Y));
+                }
+                model.Series.Add(series);
+                var max = curve.Points.Max(k => k.X);
+                var min = curve.Points.Min(k => k.X);
+                xAxis.AbsoluteMinimum = min > xAxis.AbsoluteMinimum ? min : xAxis.AbsoluteMinimum;
+                xAxis.AbsoluteMaximum = max < xAxis.AbsoluteMaximum ? max : xAxis.AbsoluteMaximum;
+            }
+            model.Axes.Add(xAxis);
+            model.Axes.Add(yAxis);
+            return model;
+        }
+    }
+}
