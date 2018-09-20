@@ -39,13 +39,13 @@
 ```xml
 <graph name = "графики">
 	<plot name="Напряжения">
-		<curve name="КТЭЦ-2" table="node" column="vras" selection="ny=301"/>
-		<curve name="Советск" table="node" column="vras" selection="ny=40707301"/>
-		<curve name="ПТЭС" table="node" column="vras" selection="ny=40707260"/>
+		<curve name="ГРЭС-2" table="node" column="vras" selection="ny=1001"/>
+		<curve name="ПС 330 кВ Звезда" table="node" column="vras" selection="ny=1193"/>
+		<curve name="ТЭЦ-15" table="node" column="vras" selection="ny=1179"/>
 	</plot>
 	<files>
-		<file path="default\02.В ремонте Л-326.rst"/>
-		<file path="default\Отключение Л-442 действием УРОВ при К11 с отказом ВЛ-442.scn"/>
+		<file path="default\02.В ремонте Л-430.rst"/>
+		<file path="default\Отключение Л-487 действием УРОВ при К11 с отказом ВЛ-487.scn"/>
 	</files>
 </graph>
 ```
@@ -172,38 +172,38 @@
    
 Пример:
 ```xml
-<graph name = "графики">
+<graph name="графики" time="12">
 	<!--- Описание графиков -->
 	<plot name="Напряжения">
-		<curve name="КТЭЦ-2" table="node" column="vras" selection="ny=301"/>
-		<curve name="Советск" table="node" column="vras" selection="ny=40707301"/>
-		<curve name="ПТЭС" table="node" column="vras" selection="ny=40707260"/>
+		<curve name="ГРЭС-2" table="node" column="vras" selection="ny=1001"/>
+		<curve name="ПС 330 кВ Звезда" table="node" column="vras" selection="ny=1193"/>
+		<curve name="ТЭЦ-15" table="node" column="vras" selection="ny=1179"/>
 	</plot>
 	<plot name="Углы роторов">
-		<curve name="КТЭЦ-2" table="Generator" column="Delta" selection="Num=40707602"/>
-		<curve name="ПТЭС" table="Generator" column="Delta" selection="Num=40707262"/>
+		<curve name="ГРЭС-2" table="Generator" column="Delta" selection="Num=116"/>
+		<curve name="ТЭЦ-15" table="Generator" column="Delta" selection="Num=108"/>
 	</plot>
 	<!--- Описание наборов файлов, попадающих в расчет -->		
 	<files>
 		<file path="default\01.Нормальная схема сети.rst"/>
-		<file path="default\Отключение Л-441 действием УРОВ при К11 с отказом ВЛ-441.scn"/>
+		<file path="default\Отключение Л-486 действием УРОВ при К11 с отказом ВЛ-486.scn"/>
 	</files>
 	<files>
-		<file path="default\02.В ремонте Л-326.rst"/>
-		<file path="default\Отключение Л-442 действием УРОВ при К11 с отказом ВЛ-442.scn"/>
+		<file path="default\02.В ремонте Л-430.rst"/>
+		<file path="default\Отключение Л-487 действием УРОВ при К11 с отказом ВЛ-487.scn"/>
 	</files>
 </graph>
 ```  
 В результате в задание попадет два расчета переходного процесса с выводом графиков:
 
-1. Для файла динамики "01.Нормальная схема сети.rst" со сценарием "Отключение Л-441 действием УРОВ при К11 с отказом ВЛ-441.scn"
-2. Для файла динамики "02.В ремонте Л-326.rst" со сценарием "Отключение Л-442 действием УРОВ при К11 с отказом ВЛ-442.scn"
+1. Для файла динамики "01.Нормальная схема сети.rst" со сценарием "Отключение Л-486 действием УРОВ при К11 с отказом ВЛ-486.scn"
+2. Для файла динамики "02.В ремонте Л-430.rst" со сценарием "Отключение Л-487 действием УРОВ при К11 с отказом ВЛ-487.scn"
 
 ![graph-result](img/graph-result.png)
 
 Выведено будет 2 графика (открываются по двойному клику):
-1. График "Напряжения" с тремя кривыми напряжения для узлов 301, 40707301 и 40707260
-1. График "Углы роторов" с двумя кривыми углов для генераторов 40707602 и 40707262
+1. График "Напряжения" с тремя кривыми напряжения для узлов 1001, 1193 и 1179
+1. График "Углы роторов" с двумя кривыми углов для генераторов 116 и 108
 
 ![graph-plots](img/graph-plots.png)
 
