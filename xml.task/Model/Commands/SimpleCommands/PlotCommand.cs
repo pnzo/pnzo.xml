@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Documents;
 using System.Xml.Linq;
 using xml.task.Model.RastrManager;
+using org.mariuszgromada.math.mxparser;
 
 namespace xml.task.Model.Commands.SimpleCommands
 {
@@ -67,7 +68,7 @@ namespace xml.task.Model.Commands.SimpleCommands
             }
             if (Time != null)
                 rastr.SetDynamicTime(Time);
-            rastr.SetExitFileTemplate($@"""{Id}_{Name}.sna""");
+            rastr.SetExitFileTemplate($@"""{Id}_{Name}_<count>.sna""");
             rastr.SetExitFilesDirectory($@"{Environment.CurrentDirectory}\exitfiles\");
             var result = rastr.RunDynamicWithExitFile();
             Status = result.IsSuccess ? (result.IsStable ? @"Устойчиво" : "Неустойчиво") : @"Ошибка расчета динамики";
@@ -78,19 +79,27 @@ namespace xml.task.Model.Commands.SimpleCommands
             Status = "Успешно";
             foreach (var plot in Plots)
             {
+                var arguments = new List<Argument>();
                 foreach (var curve in plot.Curves)
                 {
-                    try
-                    {
+                    if (curve.Printable == false)
+                        arguments.Add(new Argument(curve.Name));
+                    if (curve.Table != null && curve.Column != null && curve.Selection != null)
                         curve.Points = rastr.GetPointsFromExitFile(curve.Table, curve.Column, curve.Selection);
-                        if (curve.Points.Count != 0) continue;
-                        Status = "Ошибка";
-                        ErrorMessage = @"Выведены не все зависимости";
-                    }
-                    catch (Exception exception)
+                    //if (curve.Points.Count != 0) continue;
+                    //Status = "Ошибка";
+                    //ErrorMessage = @"Выведены не все зависимости";
+                }
+                foreach (var formulaCurve in plot.Curves.Where(curve => curve.Formula != null))
+                {
+                    var pointsCount = plot.Curves.FirstOrDefault().Points.Count;
+                    for (int i = 0; i < pointsCount; i++)
                     {
-                        Status = "Ошибка";
-                        ErrorMessage = $@"Ошибка вывода зависимости. {exception.Message}";
+                        var x = plot.Curves.FirstOrDefault().Points[i].X;
+                        foreach (var argument in arguments)
+                            argument.setArgumentValue(plot.Curves.Where(curve => curve.Name == argument.getArgumentName()).FirstOrDefault().Points[i].Y);
+                        var e = new org.mariuszgromada.math.mxparser.Expression(formulaCurve.Formula,arguments.ToArray());
+                        formulaCurve.Points.Add(new Point(x, e.calculate()));
                     }
                 }
             }
@@ -112,6 +121,6 @@ namespace xml.task.Model.Commands.SimpleCommands
         public string Formula;
         public string Column;
         public string Selection;
-        public List<Point> Points;
+        public List<Point> Points = new List<Point>();
     }
 }

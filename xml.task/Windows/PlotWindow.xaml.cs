@@ -70,7 +70,7 @@ namespace xml.task.Windows
 
 
 
-            foreach (var curve in plot.Curves)
+            foreach (var curve in plot.Curves.Where(curve => curve.Printable == true))
             {
                 if (curve.Points == null || curve.Points.Count == 0)
                     continue;               

@@ -29,11 +29,16 @@ namespace xml.task.Model.RastrManager
 
     internal class RastrOperations
     {
-        private readonly Rastr _rastr;
+        private Rastr _rastr;
 
         public RastrOperations()
         {
             _rastr = new Rastr();
+        }
+
+        ~RastrOperations()  
+        {
+            _rastr = null;
         }
 
         public static string FindTemplatePathWithExtension(string extension)
