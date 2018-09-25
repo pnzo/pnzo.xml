@@ -30,7 +30,7 @@ namespace xml.task.Model.Commands.SimpleCommands
                 };
                 foreach (var curveElement in plotElement.Elements())
                 {
-                    if (curveElement.Name.LocalName != @"curve")
+                    if (curveElement.Name.LocalName != @"curve" && curveElement.Name.LocalName != @"arg")
                         continue;
                     var curve = new Curve
                     {
@@ -38,7 +38,13 @@ namespace xml.task.Model.Commands.SimpleCommands
                         Table = curveElement.Attribute(@"table")?.Value,
                         Column = curveElement.Attribute(@"column")?.Value,
                         Selection = curveElement.Attribute(@"selection")?.Value,
+                        Formula = curveElement.Attribute(@"formula")?.Value,
                     };
+                    if (curveElement.Name.LocalName == @"curve")
+                        curve.Printable = true;
+                    if (curveElement.Name.LocalName == @"arg")
+                        curve.Printable = false;
+
                     plot.Curves.Add(curve);
                 }
                 Plots.Add(plot);
@@ -101,7 +107,9 @@ namespace xml.task.Model.Commands.SimpleCommands
     public class Curve
     {
         public string Name;
+        public bool Printable;
         public string Table;
+        public string Formula;
         public string Column;
         public string Selection;
         public List<Point> Points;
