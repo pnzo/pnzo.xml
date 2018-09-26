@@ -106,6 +106,9 @@
     <Compile Include="Windows\StabilityWindow.xaml.cs">
       <DependentUpon>StabilityWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\NewCommandWindow.xaml.cs">
+      <DependentUpon>NewCommandWindow.xaml</DependentUpon>
+    </Compile>
     <Page Include="Windows\ExecutingWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -132,6 +135,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\StabilityWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\NewCommandWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

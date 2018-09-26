@@ -16,7 +16,6 @@ namespace xml.task.Model.Commands
     {
         private List<string> files;
         private string status;
-        private string filesString;
         private string errorMessage;
 
         public string Name { get; set; }

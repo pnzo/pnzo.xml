@@ -214,5 +214,15 @@ namespace xml.task
                 }
             }
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            var newCommandWindow = new NewCommandWindow
+            {
+                Owner = this
+            };
+            //taskWindow.DataContext = taskWindow.Calculation;
+            newCommandWindow.ShowDialog();
+        }
     }
 }
