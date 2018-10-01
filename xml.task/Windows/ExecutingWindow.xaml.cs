@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Data;
 using xml.task.Model;
 using xml.task.Model.Commands;
 using xml.task.Model.Commands.SimpleCommands;
@@ -71,4 +72,5 @@ namespace xml.task
             }
         }
     }
-}
+
+    }

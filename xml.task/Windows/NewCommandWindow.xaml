@@ -5,13 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:xml.task.Windows"
         mc:Ignorable="d"
-        Title="Новая команда" Height="299.556" Width="468.491"
+        Title="Новая команда" Height="300" Width="500"
         >
     <Grid>
-        <ListBox ItemsSource="{Binding Path=Templates}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+        <ListBox Name="TemplateListBox"
+            ItemsSource="{Binding Path=Templates}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" MouseDown="ListBox_MouseDown" MouseDoubleClick="TemplateListBox_MouseDoubleClick">
             <ListBox.ItemContainerStyle>
                 <Style TargetType="ListBoxItem">
-                    <Setter Property="Height" Value="100" />
+                    <Setter Property="Height" Value="75" />
                 </Style>
             </ListBox.ItemContainerStyle>
             <ListBox.ItemTemplate>

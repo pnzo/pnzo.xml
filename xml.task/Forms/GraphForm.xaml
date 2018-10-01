@@ -1,12 +1,63 @@
-﻿<Window x:Class="xml.task.Forms.GraphForm"
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:xml.task.Forms"
+        xmlns:Controls="clr-namespace:Custom.Controls;assembly=Custom.Controls.EditableTextBlock" x:Class="xml.task.Forms.GraphForm"
         mc:Ignorable="d"
-        Title="GraphForm" Height="450" Width="800">
+        Title="Редактирование команды: Вывод графиков" Height="500" Width="400">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+
+        <Controls:EditableTextBlock Text="Вывод графиков" FontSize="24" VerticalAlignment="Center"/>
+
+        <ListBox Name="FileListBox"
+            Grid.Row="3" DragEnter="ListBox_DragEnter" Drop="ListBox_Drop" AllowDrop="True" ItemsSource="{Binding Path=Sets}">
+            <ListBox.ItemTemplate>
+                <DataTemplate DataType="{x:Type local:FilesSet}">
+
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel>
+                <Controls:EditableTextBlock Text="Время расчета, с" IsReadOnly="True"/>
+            </StackPanel>
+            <StackPanel Grid.Column="1">
+                <Controls:EditableTextBlock Text="0"/>
+            </StackPanel>
+        </Grid>
+        <ListBox Grid.Row="2" Name="PlotsListBox">
+            <ListBox.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Добавить область" Click="MenuItem_Click"/>
+                </ContextMenu>
+            </ListBox.ContextMenu>
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="Height" Value="50" />
+                </Style>
+            </ListBox.ItemContainerStyle>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <Controls:EditableTextBlock FontSize="12" FontWeight="SemiBold" Text="Заголовок" HorizontalAlignment="Left" Margin="-5,-5,-5,-5"/>
+                        <Controls:EditableTextBlock FontSize="12" Text="Количество кривых: 0" HorizontalAlignment="Right" IsReadOnly="True" Margin="-5,-5,-5,-5"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+
     </Grid>
 </Window>
