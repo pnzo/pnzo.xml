@@ -17,17 +17,53 @@ using System.Windows.Shapes;
 
 namespace xml.task.Forms
 {
+    public class PlotData : INotifyPropertyChanged
+    {
+        private string _name = "Новая область";
+        public string Name
+        {
+            get
+            {
+                return _name;
+            }
+            set
+            {
+                _name = value;
+                OnPropertyChanged();
+            }
+        }
+        public List<CurveData> Curves;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void OnPropertyChanged([CallerMemberName]string prop = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
+        }
+    }
+
+    public class CurveData
+    {
+        public string Table { get; set; }
+        public string Column { get; set; }
+        public string Selection { get; set; }
+        public string Formula { get; set; }
+    }
+
     /// <summary>
     /// Логика взаимодействия для GraphForm.xaml
     /// </summary>
     public partial class GraphForm : Window, INotifyPropertyChanged
     {
-
+        public double Time { get; set; }
         public ObservableCollection<object> Sets { get; set; }
+        public ObservableCollection<PlotData> Plots { get; set; }
+
+
         public GraphForm()
         {
             InitializeComponent();
             Sets = new ObservableCollection<object>();
+            Plots = new ObservableCollection<PlotData>();
             this.DataContext = this;
         }
 
@@ -53,9 +89,9 @@ namespace xml.task.Forms
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
         }
 
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        private void AddNewPlotWithContextMenu(object sender, RoutedEventArgs e)
         {
-            PlotsListBox.Items.Add(new object());
+            Plots.Add(new PlotData());
         }
     }
 

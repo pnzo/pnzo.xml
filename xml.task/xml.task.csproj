@@ -66,7 +66,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Custom.Controls.EditableTextBlock">
-      <HintPath>C:\Users\Алексей\Downloads\WPFEditableTextBlock-master\bin\Debug\Custom.Controls.EditableTextBlock.dll</HintPath>
+      <HintPath>..\packages\Custom.Controls.EditableTextBlock.dll</HintPath>
     </Reference>
     <Reference Include="ICSharpCode.AvalonEdit, Version=5.0.3.0, Culture=neutral, PublicKeyToken=9cc39be672370310, processorArchitecture=MSIL">
       <HintPath>..\packages\AvalonEdit.5.0.4\lib\Net40\ICSharpCode.AvalonEdit.dll</HintPath>
@@ -103,6 +103,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Forms\CurveForm.xaml.cs">
+      <DependentUpon>CurveForm.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Forms\GraphForm.xaml.cs">
       <DependentUpon>GraphForm.xaml</DependentUpon>
     </Compile>
@@ -115,6 +118,10 @@
     <Compile Include="Windows\NewCommandWindow.xaml.cs">
       <DependentUpon>NewCommandWindow.xaml</DependentUpon>
     </Compile>
+    <Page Include="Forms\CurveForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Forms\GraphForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -4,7 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:xml.task.Forms"
-        xmlns:Controls="clr-namespace:Custom.Controls;assembly=Custom.Controls.EditableTextBlock" x:Class="xml.task.Forms.GraphForm"
+        xmlns:Controls="clr-namespace:Custom.Controls;assembly=Custom.Controls.EditableTextBlock" 
+        x:Class="xml.task.Forms.GraphForm"
         mc:Ignorable="d"
         Title="Редактирование команды: Вывод графиков" Height="500" Width="400">
     <Grid>
@@ -17,14 +18,13 @@
 
         <Controls:EditableTextBlock Text="Вывод графиков" FontSize="24" VerticalAlignment="Center"/>
 
-        <ListBox Name="FileListBox"
+        <ItemsControl Name="FileListBox" BorderThickness="0" Background="LightGray"
             Grid.Row="3" DragEnter="ListBox_DragEnter" Drop="ListBox_Drop" AllowDrop="True" ItemsSource="{Binding Path=Sets}">
-            <ListBox.ItemTemplate>
+            <ItemsControl.ItemTemplate>
                 <DataTemplate DataType="{x:Type local:FilesSet}">
-
                 </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*"/>
@@ -37,27 +37,39 @@
                 <Controls:EditableTextBlock Text="0"/>
             </StackPanel>
         </Grid>
-        <ListBox Grid.Row="2" Name="PlotsListBox">
+        <ListBox Grid.Row="2" Name="PlotsListBox" BorderThickness="0" ItemsSource="{Binding Path=Plots}">
+            <ListBox.Resources>
+                <ContextMenu x:Key="listBoxItemContextMenu">
+                    <MenuItem Header="Добавить новую область" Click="AddNewPlotWithContextMenu"/>
+                    <MenuItem>
+                        <MenuItem.Header>
+                            <TextBlock>
+                                <Run Text="Добавить кривую в"/>
+                                <Run Text="{Binding Path=Name}"/>
+                            </TextBlock>
+                        </MenuItem.Header>
+                    </MenuItem>
+                </ContextMenu>
+            </ListBox.Resources>
             <ListBox.ContextMenu>
-                <ContextMenu>
-                    <MenuItem Header="Добавить область" Click="MenuItem_Click"/>
+                <ContextMenu >
+                    <MenuItem Header="Добавить новую область" Click="AddNewPlotWithContextMenu"/>
                 </ContextMenu>
             </ListBox.ContextMenu>
             <ListBox.ItemContainerStyle>
                 <Style TargetType="ListBoxItem">
                     <Setter Property="Height" Value="50" />
+                    <Setter Property="ContextMenu" Value="{StaticResource listBoxItemContextMenu}"/>
                 </Style>
             </ListBox.ItemContainerStyle>
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
-                        <Controls:EditableTextBlock FontSize="12" FontWeight="SemiBold" Text="Заголовок" HorizontalAlignment="Left" Margin="-5,-5,-5,-5"/>
-                        <Controls:EditableTextBlock FontSize="12" Text="Количество кривых: 0" HorizontalAlignment="Right" IsReadOnly="True" Margin="-5,-5,-5,-5"/>
+                        <Controls:EditableTextBlock FontSize="12" FontWeight="SemiBold" Text="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" BorderThickness="0" Margin="-5,-5,-5,-5"/>
+                        <Controls:EditableTextBlock IsReadOnly="True" FontSize="12" Text="Количество кривых: 0" HorizontalAlignment="Left" Margin="-5,-5,-5,-5"/>
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-
-
     </Grid>
 </Window>
