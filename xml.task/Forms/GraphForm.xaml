@@ -41,7 +41,7 @@
             <ListBox.Resources>
                 <ContextMenu x:Key="listBoxItemContextMenu">
                     <MenuItem Header="Добавить новую область" Click="AddNewPlotWithContextMenu"/>
-                    <MenuItem>
+                    <MenuItem Click="AddNewCurveWithContextMenu">
                         <MenuItem.Header>
                             <TextBlock>
                                 <Run Text="Добавить кривую в"/>

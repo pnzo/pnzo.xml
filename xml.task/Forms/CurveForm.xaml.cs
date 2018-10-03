@@ -19,9 +19,17 @@ namespace xml.task.Forms
     /// </summary>
     public partial class CurveForm : Window
     {
+        public PlotData Plot;
+        public CurveData Curve { get; set; }
+
         public CurveForm()
         {
             InitializeComponent();
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            Plot.Curves.Add(Curve);
         }
     }
 }

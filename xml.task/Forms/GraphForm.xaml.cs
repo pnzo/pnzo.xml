@@ -41,12 +41,82 @@ namespace xml.task.Forms
         }
     }
 
-    public class CurveData
+    public class CurveData : INotifyPropertyChanged
     {
-        public string Table { get; set; }
-        public string Column { get; set; }
-        public string Selection { get; set; }
-        public string Formula { get; set; }
+        private string _name;
+        private string _table;
+        private string _column;
+        private string _selection;
+        private string _formula;
+
+        public string Name
+        {
+            get
+            {
+                return _name;
+            }
+            set
+            {
+                _name = value;
+                OnPropertyChanged();
+            }
+        }
+        public string Table
+        {
+            get
+            {
+                return _table;
+            }
+            set
+            {
+                _table = value;
+                OnPropertyChanged();
+            }
+        }
+        public string Column
+        {
+            get
+            {
+                return _column;
+            }
+            set
+            {
+                _column = value;
+                OnPropertyChanged();
+            }
+        }
+        public string Selection
+        {
+            get
+            {
+                return _selection;
+            }
+            set
+            {
+                _selection = value;
+                OnPropertyChanged();
+            }
+        }
+        public string Formula
+        {
+            get
+            {
+                return _formula;
+            }
+            set
+            {
+                _formula = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public List<CurveData> Curves;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void OnPropertyChanged([CallerMemberName]string prop = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
+        }
     }
 
     /// <summary>
@@ -92,6 +162,12 @@ namespace xml.task.Forms
         private void AddNewPlotWithContextMenu(object sender, RoutedEventArgs e)
         {
             Plots.Add(new PlotData());
+        }
+
+        private void AddNewCurveWithContextMenu(object sender, RoutedEventArgs e)
+        {
+            var window = new CurveForm();
+
         }
     }
 
