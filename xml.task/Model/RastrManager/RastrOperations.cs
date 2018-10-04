@@ -36,7 +36,7 @@ namespace xml.task.Model.RastrManager
             _rastr = new Rastr();
         }
 
-        ~RastrOperations()  
+        ~RastrOperations()
         {
             _rastr = null;
         }
@@ -130,6 +130,103 @@ namespace xml.task.Model.RastrManager
                 points.Add(new Point(v[i, 1], v[i, 0]));
             }
             return points;
+        }
+
+
+        public static List<RastrTableTemplate> tables = new List<RastrTableTemplate>
+        {
+            new RastrTableTemplate(@"node",@"Узлы",@"ny=1111"),
+            new RastrTableTemplate(@"vetv",@"Ветви",@"ip=1111&iq=2222&np=0"),
+            new RastrTableTemplate(@"Generator",@"Генератор",@"Num=1111"),
+        };
+
+        public static List<RastrColumnTemplate> columns(string table)
+        {
+            switch (table)
+            {
+                case @"node":
+                    return new List<RastrColumnTemplate>
+                    {
+                        new RastrColumnTemplate(@"ny",@"Номер",false),
+                        new RastrColumnTemplate(@"uhom",@"Номинальное напряжение",false),
+                        new RastrColumnTemplate(@"vras",@"Расчетное напряжение",true),
+                        new RastrColumnTemplate(@"delta",@"Угол напряжения",true),
+                        new RastrColumnTemplate(@"pn",@"Активная мощность нагрузки",true),
+                        new RastrColumnTemplate(@"qn",@"Реактивная мощность нагрузки",true),
+                        new RastrColumnTemplate(@"pg",@"Активная мощность генерации",true),
+                        new RastrColumnTemplate(@"qg",@"Реактивная мощность генерации",true)
+                    };
+                case @"vetv":
+                    return new List<RastrColumnTemplate>
+                    {
+                        new RastrColumnTemplate(@"ip",@"Номер начала",false),
+                        new RastrColumnTemplate(@"iq",@"Номер конца",false),
+                        new RastrColumnTemplate(@"np",@"Номер параллельности",false),
+                        new RastrColumnTemplate(@"r",@"Активное сопротивление",false),
+                        new RastrColumnTemplate(@"x",@"Реактивное сопротивление",false),
+                        new RastrColumnTemplate(@"b",@"Емкостная проводимость",false),
+                        new RastrColumnTemplate(@"ktr",@"Коэффициент трансформации",true),
+                        new RastrColumnTemplate(@"pl_ip",@"Активная мощность в начале",true),
+                        new RastrColumnTemplate(@"ql_ip",@"Реактивная мощность в начале",true),
+                        new RastrColumnTemplate(@"pl_iq",@"Активная мощность в конце",true),
+                        new RastrColumnTemplate(@"ql_iq",@"Реактивная мощность в конце",true),
+                        new RastrColumnTemplate(@"ib",@"Ток в начале",true),
+                        new RastrColumnTemplate(@"ie",@"Ток в конце",true),
+                    };
+                case @"Generator":
+                    return new List<RastrColumnTemplate>
+                    {
+                        new RastrColumnTemplate(@"Num",@"Номер",false),
+                        new RastrColumnTemplate(@"P",@"Активная мощность",true),
+                        new RastrColumnTemplate(@"Q",@"Реактивная мощность",true),
+                    };
+                default:
+                    return new List<RastrColumnTemplate>();
+            }
+        }
+    }
+
+    public class RastrTableTemplate
+    {
+        public string Name;
+        public string Description;
+        public string DefaultSelection;
+
+
+        public RastrTableTemplate()
+        {
+
+        }
+
+        public RastrTableTemplate(string name, string description, string defaultSelection)
+        {
+            Name = name;
+            Description = description;
+            DefaultSelection = defaultSelection;
+        }
+
+        override public string ToString()
+        {
+            return $@"{Description} ({Name})";
+        }
+    }
+
+    public class RastrColumnTemplate
+    {
+        public string Name;
+        public string Description;
+        public bool HasTransientGraph;
+
+        public RastrColumnTemplate()
+        {
+
+        }
+
+        public RastrColumnTemplate(string name, string description, bool hasTransientGraph)
+        {
+            Name = name;
+            Description = description;
+            HasTransientGraph = hasTransientGraph;
         }
     }
 }

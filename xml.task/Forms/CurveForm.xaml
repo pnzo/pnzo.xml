@@ -6,7 +6,9 @@
         xmlns:local="clr-namespace:xml.task.Forms"
         xmlns:Controls="clr-namespace:Custom.Controls;assembly=Custom.Controls.EditableTextBlock" 
         mc:Ignorable="d"
-        Title="CurveForm" Height="156.25" Width="504.688" Closed="Window_Closed">
+        Title="CurveForm" Height="156.25" Width="504.688" Closed="Window_Closed" Loaded="Window_Loaded" Name="CurveWindow">
+
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
@@ -22,11 +24,25 @@
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
-            <Controls:EditableTextBlock Text="Таблица" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <Controls:EditableTextBlock Text="Столбец" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1"/>
-            <Controls:EditableTextBlock Text="Выборка" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="2"/>
-
+            <StackPanel>
+                <Controls:EditableTextBlock DataContext="{Binding Curve}" Text="{Binding Path=Table, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <StackPanel.ContextMenu>
+                    <ContextMenu ItemsSource="{Binding Path=TableTemplates}"/>
+                </StackPanel.ContextMenu>
+            </StackPanel>
+            <StackPanel Grid.Column="1">
+                <Controls:EditableTextBlock DataContext="{Binding Curve}" Text="{Binding Path=Column, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <StackPanel.ContextMenu>
+                    <ContextMenu ItemsSource="{Binding Path=TableTemplates}"/>
+                </StackPanel.ContextMenu>
+            </StackPanel>
+            <StackPanel Grid.Column="2">
+                <Controls:EditableTextBlock  DataContext="{Binding Curve}" Text="{Binding Path=Selection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <StackPanel.ContextMenu>
+                    <ContextMenu ItemsSource="{Binding Path=TableTemplates}"/>
+                </StackPanel.ContextMenu>
+            </StackPanel>
         </Grid>
-        <Controls:EditableTextBlock Text="Новая кривая" FontSize="24" VerticalAlignment="Center"/>
+        <Controls:EditableTextBlock DataContext="{Binding Curve}" Text="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="24" VerticalAlignment="Center"/>
     </Grid>
 </Window>

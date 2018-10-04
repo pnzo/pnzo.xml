@@ -43,11 +43,11 @@ namespace xml.task.Forms
 
     public class CurveData : INotifyPropertyChanged
     {
-        private string _name;
-        private string _table;
-        private string _column;
-        private string _selection;
-        private string _formula;
+        private string _name = @"Новая кривая";
+        private string _table = @"Таблица";
+        private string _column = @"Столбец";
+        private string _selection = @"Выборка";
+        private string _formula = @"Формула";
 
         public string Name
         {
@@ -110,8 +110,6 @@ namespace xml.task.Forms
             }
         }
 
-        public List<CurveData> Curves;
-
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName]string prop = "")
         {
@@ -167,7 +165,9 @@ namespace xml.task.Forms
         private void AddNewCurveWithContextMenu(object sender, RoutedEventArgs e)
         {
             var window = new CurveForm();
-
+            window.Curve = new CurveData();
+            window.DataContext = window;
+            window.ShowDialog();
         }
     }
 
