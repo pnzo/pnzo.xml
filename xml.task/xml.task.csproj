@@ -103,8 +103,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Forms\CurveForm.xaml.cs">
-      <DependentUpon>CurveForm.xaml</DependentUpon>
+    <Compile Include="Forms\NewCurveForm.xaml.cs">
+      <DependentUpon>NewCurveForm.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\GraphForm.xaml.cs">
       <DependentUpon>GraphForm.xaml</DependentUpon>
@@ -118,7 +118,7 @@
     <Compile Include="Windows\NewCommandWindow.xaml.cs">
       <DependentUpon>NewCommandWindow.xaml</DependentUpon>
     </Compile>
-    <Page Include="Forms\CurveForm.xaml">
+    <Page Include="Forms\NewCurveForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

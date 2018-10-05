@@ -228,5 +228,10 @@ namespace xml.task.Model.RastrManager
             Description = description;
             HasTransientGraph = hasTransientGraph;
         }
+
+        override public string ToString()
+        {
+            return $@"{Description} ({Name})";
+        }
     }
 }

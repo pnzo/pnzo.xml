@@ -8,9 +8,6 @@
         x:Class="xml.task.Forms.GraphForm"
         mc:Ignorable="d"
         Title="Редактирование команды: Вывод графиков" Height="500" Width="400">
-    <Window.Resources>
-        <local:StringToDoubleConverter x:Key="StringToDoubleConverter" />
-    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
@@ -37,7 +34,7 @@
                 <Controls:EditableTextBlock Text="Время расчета, с" IsReadOnly="True"/>
             </StackPanel>
             <StackPanel Grid.Column="1">
-                <Controls:EditableTextBlock Text="{Binding Path=Time, Mode=TwoWay, Converter={StaticResource StringToDoubleConverter}, UpdateSourceTrigger=PropertyChanged}"/>
+                <Controls:EditableTextBlock Text="{Binding Path=Time, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             </StackPanel>
         </Grid>
         <ListBox Grid.Row="2" Name="PlotsListBox" BorderThickness="0" ItemsSource="{Binding Path=Plots}">
@@ -48,6 +45,22 @@
                         <MenuItem.Header>
                             <TextBlock>
                                 <Run Text="Добавить кривую в"/>
+                                <Run Text="{Binding Path=Name}"/>
+                            </TextBlock>
+                        </MenuItem.Header>
+                    </MenuItem>
+                    <MenuItem>
+                        <MenuItem.Header>
+                            <TextBlock>
+                                <Run Text="Редактировать"/>
+                                <Run Text="{Binding Path=Name}"/>
+                            </TextBlock>
+                        </MenuItem.Header>
+                    </MenuItem>
+                    <MenuItem Click="DeletePlotWithContextMenu" >
+                        <MenuItem.Header>
+                            <TextBlock>
+                                <Run Text="Удалить"/>
                                 <Run Text="{Binding Path=Name}"/>
                             </TextBlock>
                         </MenuItem.Header>

@@ -141,29 +141,28 @@ namespace xml.task.Forms
         }
     }
 
-    public class StringToDoubleConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            var isNumeric = double.TryParse(value.ToString(), out double n);
-            if (!isNumeric)
-                return 0.0;
-            return n;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            return value.ToString();
-        }
-    }
-
     /// <summary>
     /// Логика взаимодействия для GraphForm.xaml
     /// </summary>
     public partial class GraphForm : Window, INotifyPropertyChanged
     {
-        private double _time = 0.0;
-        public double Time { get; set; }
+        private string _time = @"0";
+        public string Time
+        {
+            get
+            {
+                return _time;
+            }
+            set
+            {
+                double d;
+                if (double.TryParse(value, out d) == false)
+                    _time = @"0";
+                else
+                    _time = value;
+                
+            }
+        }
         public ObservableCollection<object> Sets { get; set; }
         public ObservableCollection<PlotData> Plots { get; set; }
 
@@ -200,16 +199,22 @@ namespace xml.task.Forms
 
         private void AddNewPlotWithContextMenu(object sender, RoutedEventArgs e)
         {
+
             Plots.Add(new PlotData());
         }
 
         private void AddNewCurveWithContextMenu(object sender, RoutedEventArgs e)
         {
-            var window = new CurveForm();
+            var window = new NewCurveForm();
             window.Curve = new CurveData();
             window.Plot = (PlotData)PlotsListBox.SelectedItem;
             window.DataContext = window;
             window.ShowDialog();
+        }
+
+        private void DeletePlotWithContextMenu(object sender, RoutedEventArgs e)
+        {
+            Plots.Remove((PlotData)PlotsListBox.SelectedItem);
         }
     }
 
