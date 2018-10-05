@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -32,7 +33,30 @@ namespace xml.task.Forms
                 OnPropertyChanged();
             }
         }
-        public List<CurveData> Curves;
+        public ObservableCollection<CurveData> Curves = new ObservableCollection<CurveData>();
+        public string CurvesString
+        {
+            get
+            {
+                var curvesString = @"";
+                foreach (var curve in Curves)
+                {
+                    curvesString += $@"{curve.Name}, ";
+                }
+                return curvesString;
+            }
+        }
+
+        public PlotData()
+        {
+            Curves.CollectionChanged += ContentCollectionChanged;
+        }
+
+        public void ContentCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (e.Action == NotifyCollectionChangedAction.Add)
+                OnPropertyChanged(@"CurvesString");
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName]string prop = "")
@@ -117,11 +141,28 @@ namespace xml.task.Forms
         }
     }
 
+    public class StringToDoubleConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            var isNumeric = double.TryParse(value.ToString(), out double n);
+            if (!isNumeric)
+                return 0.0;
+            return n;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            return value.ToString();
+        }
+    }
+
     /// <summary>
     /// Логика взаимодействия для GraphForm.xaml
     /// </summary>
     public partial class GraphForm : Window, INotifyPropertyChanged
     {
+        private double _time = 0.0;
         public double Time { get; set; }
         public ObservableCollection<object> Sets { get; set; }
         public ObservableCollection<PlotData> Plots { get; set; }
@@ -166,6 +207,7 @@ namespace xml.task.Forms
         {
             var window = new CurveForm();
             window.Curve = new CurveData();
+            window.Plot = (PlotData)PlotsListBox.SelectedItem;
             window.DataContext = window;
             window.ShowDialog();
         }

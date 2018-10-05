@@ -8,6 +8,9 @@
         x:Class="xml.task.Forms.GraphForm"
         mc:Ignorable="d"
         Title="Редактирование команды: Вывод графиков" Height="500" Width="400">
+    <Window.Resources>
+        <local:StringToDoubleConverter x:Key="StringToDoubleConverter" />
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
@@ -34,7 +37,7 @@
                 <Controls:EditableTextBlock Text="Время расчета, с" IsReadOnly="True"/>
             </StackPanel>
             <StackPanel Grid.Column="1">
-                <Controls:EditableTextBlock Text="0"/>
+                <Controls:EditableTextBlock Text="{Binding Path=Time, Mode=TwoWay, Converter={StaticResource StringToDoubleConverter}, UpdateSourceTrigger=PropertyChanged}"/>
             </StackPanel>
         </Grid>
         <ListBox Grid.Row="2" Name="PlotsListBox" BorderThickness="0" ItemsSource="{Binding Path=Plots}">
@@ -66,7 +69,7 @@
                 <DataTemplate>
                     <StackPanel>
                         <Controls:EditableTextBlock FontSize="12" FontWeight="SemiBold" Text="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" BorderThickness="0" Margin="-5,-5,-5,-5"/>
-                        <Controls:EditableTextBlock IsReadOnly="True" FontSize="12" Text="Количество кривых: 0" HorizontalAlignment="Left" Margin="-5,-5,-5,-5"/>
+                        <Controls:EditableTextBlock IsReadOnly="True" FontSize="12" Text="{Binding Path=CurvesString, Mode=OneWay}" HorizontalAlignment="Left" Margin="-5,-5,-5,-5"/>
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
