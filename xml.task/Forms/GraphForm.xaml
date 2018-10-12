@@ -37,7 +37,7 @@
                 <Controls:EditableTextBlock Text="{Binding Path=Time, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             </StackPanel>
         </Grid>
-        <ListBox Grid.Row="2" Name="PlotsListBox" BorderThickness="0" ItemsSource="{Binding Path=Plots}">
+        <ListBox Grid.Row="2" Name="PlotsListBox" BorderThickness="0" ItemsSource="{Binding Path=Plots}" MouseDoubleClick="PlotsListBox_MouseDoubleClick">
             <ListBox.Resources>
                 <ContextMenu x:Key="listBoxItemContextMenu">
                     <MenuItem Header="Добавить новую область" Click="AddNewPlotWithContextMenu"/>

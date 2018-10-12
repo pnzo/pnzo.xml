@@ -87,14 +87,21 @@ namespace xml.task.Forms
 
         private void CurveWindow_Closing(object sender, CancelEventArgs e)
         {
-            var dialogResult = MessageBox.Show($@"Добавить кривую {Curve.Name} в область {Plot.Name}?", "pnzo", MessageBoxButton.YesNoCancel);
-            if (dialogResult == MessageBoxResult.Yes)
+        }
+
+        private void CurveWindow_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.Key)
             {
-                Plot.Curves.Add(Curve);
-            }
-            else if (dialogResult == MessageBoxResult.Cancel)
-            {
-                e.Cancel = true;
+                case Key.Enter:
+                    Plot.Curves.Add(Curve);
+                    CurveWindow.Close();
+                    break;
+                case Key.Escape:
+                    CurveWindow.Close();
+                    break;
+                default:
+                    break;
             }
         }
     }

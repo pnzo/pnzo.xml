@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:xml.task.Forms"
         xmlns:Controls="clr-namespace:Custom.Controls;assembly=Custom.Controls.EditableTextBlock" 
         mc:Ignorable="d"
-        Title="CurveForm" Height="140" MaxHeight="140" Width="500" Closed="Window_Closed" Name="CurveWindow" Closing="CurveWindow_Closing">
+        Title="CurveForm" Height="140" MaxHeight="140" Width="500" Closed="Window_Closed" Name="CurveWindow" Closing="CurveWindow_Closing" WindowStyle="ToolWindow" KeyDown="CurveWindow_KeyDown">
 
 
     <Grid>

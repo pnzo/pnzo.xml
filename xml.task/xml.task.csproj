@@ -109,6 +109,9 @@
     <Compile Include="Forms\GraphForm.xaml.cs">
       <DependentUpon>GraphForm.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Forms\PlotForm.xaml.cs">
+      <DependentUpon>PlotForm.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\PlotWindow.xaml.cs">
       <DependentUpon>PlotWindow.xaml</DependentUpon>
     </Compile>
@@ -123,6 +126,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Forms\GraphForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\PlotForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

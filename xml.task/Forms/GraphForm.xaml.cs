@@ -216,6 +216,17 @@ namespace xml.task.Forms
         {
             Plots.Remove((PlotData)PlotsListBox.SelectedItem);
         }
+
+        private void PlotsListBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            var a = (PlotData)PlotsListBox.SelectedItem;
+            var window = new PlotForm
+            {
+                Owner = this,
+                plotData = a
+            };
+            window.ShowDialog();
+        }
     }
 
     public class FilesSet
