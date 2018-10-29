@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Collections.Specialized;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -13,6 +14,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using xml.task.Data;
 
 namespace xml.task.Forms
 {
@@ -61,6 +63,11 @@ namespace xml.task.Forms
         public void OnPropertyChanged([CallerMemberName]string prop = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            plotData.ContentCollectionChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
         }
 
     }

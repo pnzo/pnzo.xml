@@ -68,6 +68,10 @@
     <Reference Include="Custom.Controls.EditableTextBlock">
       <HintPath>..\packages\Custom.Controls.EditableTextBlock.dll</HintPath>
     </Reference>
+    <Reference Include="GongSolutions.WPF.DragDrop, Version=2.0.0.75, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\gong-wpf-dragdrop.2.0.0-alpha0075\lib\net46\GongSolutions.WPF.DragDrop.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="ICSharpCode.AvalonEdit, Version=5.0.3.0, Culture=neutral, PublicKeyToken=9cc39be672370310, processorArchitecture=MSIL">
       <HintPath>..\packages\AvalonEdit.5.0.4\lib\Net40\ICSharpCode.AvalonEdit.dll</HintPath>
     </Reference>
@@ -103,9 +107,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Forms\NewCurveForm.xaml.cs">
-      <DependentUpon>NewCurveForm.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="Data\CurveData.cs" />
+    <Compile Include="Data\PlotData.cs" />
     <Compile Include="Forms\GraphForm.xaml.cs">
       <DependentUpon>GraphForm.xaml</DependentUpon>
     </Compile>
@@ -121,10 +124,6 @@
     <Compile Include="Windows\NewCommandWindow.xaml.cs">
       <DependentUpon>NewCommandWindow.xaml</DependentUpon>
     </Compile>
-    <Page Include="Forms\NewCurveForm.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Forms\GraphForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

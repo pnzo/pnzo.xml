@@ -4,29 +4,52 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:xml.task.Forms"
+        xmlns:dd="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
         xmlns:Controls="clr-namespace:Custom.Controls;assembly=Custom.Controls.EditableTextBlock"
         mc:Ignorable="d"
-        Title="PlotForm" Height="300" MaxHeight="300" Width="400" MaxWidth="600" Loaded="Window_Loaded">
+        Title="PlotForm" Height="400" MaxHeight="400" Width="400" MaxWidth="600" Loaded="Window_Loaded" Closed="Window_Closed">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
-        <Controls:EditableTextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24" FontWeight="DemiBold" Text="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        <Controls:EditableTextBlock HorizontalAlignment="Center" 
+                                    VerticalAlignment="Center" 
+                                    FontSize="24" 
+                                    FontWeight="DemiBold" 
+                                    MinWidth="75"
+                                    DataContext ="{Binding plotData}" 
+                                    Text="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
-            <ListBox BorderThickness="0" DataContext ="{Binding plotData}" ItemsSource="{Binding Path=Curves}" Name="CurvesListBox" SelectionChanged="CurvesListBox_SelectionChanged">
+            <ListBox BorderThickness="0" 
+                     DataContext ="{Binding plotData}" 
+                     ItemsSource="{Binding Path=Curves}" 
+                     Name="CurvesListBox" 
+                     SelectionChanged="CurvesListBox_SelectionChanged"
+                     dd:DragDrop.IsDragSource="True"
+                     dd:DragDrop.IsDropTarget="True">
                 <ListBox.ContextMenu>
                     <ContextMenu >
                         <MenuItem Header="Добавить новую кривую" Click="MenuItem_Click"/>
                     </ContextMenu>
                 </ListBox.ContextMenu>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <WrapPanel>
+                            <CheckBox Grid.Row="0" VerticalAlignment="Center" IsChecked="{Binding Path=Printable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <Controls:EditableTextBlock Grid.Row="1" MinWidth="75" FontSize="12" FontWeight="SemiBold" Text="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" BorderThickness="0"/>
+                        </WrapPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
             </ListBox>
             <Grid Grid.Column="1">
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
                     <RowDefinition Height="1*"/>
                     <RowDefinition Height="1*"/>
                     <RowDefinition Height="1*"/>
@@ -40,17 +63,28 @@
                                             VerticalAlignment="Center" 
                                             FontSize="16" 
                                             FontWeight="DemiBold" 
+                                            MinWidth="75"
                                             DataContext="{Binding CurveData}" 
                                             Text="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 <TextBlock Grid.Row="1" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Таблица" VerticalAlignment="Center"/>
-                <ComboBox  Grid.Row="2" />
+                <ComboBox  Grid.Row="2" IsEditable="True" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
+                           DataContext="{Binding CurveData}" 
+                           Text="{Binding Path=Table, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 <TextBlock  Grid.Row="3" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Столбец" VerticalAlignment="Center"/>
-                <ComboBox  Grid.Row="4" DataContext="{Binding CurveData}" Text="{Binding Path=Name}" />
+                <ComboBox  Grid.Row="4" IsEditable="True" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
+                           DataContext="{Binding CurveData}" 
+                           Text="{Binding Path=Column, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 <TextBlock  Grid.Row="5" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Выборка" VerticalAlignment="Center"/>
-                <TextBox  Grid.Row="6" TextAlignment="Center" VerticalContentAlignment="Center"/>
+                <TextBox  Grid.Row="6" TextAlignment="Center" VerticalContentAlignment="Center"
+                          DataContext="{Binding CurveData}" 
+                          Text="{Binding Path=Selection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBlock  Grid.Row="7" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Формула" VerticalAlignment="Center"/>
+                <TextBox  Grid.Row="8" TextAlignment="Center" VerticalContentAlignment="Center"
+                          DataContext="{Binding CurveData}" 
+                          Text="{Binding Path=Formula, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             </Grid>
 
         </Grid>
     </Grid>
-    
+
 </Window>

@@ -37,19 +37,11 @@
                 <Controls:EditableTextBlock Text="{Binding Path=Time, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             </StackPanel>
         </Grid>
-        <ListBox Grid.Row="2" Name="PlotsListBox" BorderThickness="0" ItemsSource="{Binding Path=Plots}" MouseDoubleClick="PlotsListBox_MouseDoubleClick">
+        <ListBox Grid.Row="2" Name="PlotsListBox" BorderThickness="0" ItemsSource="{Binding Path=Plots}">
             <ListBox.Resources>
                 <ContextMenu x:Key="listBoxItemContextMenu">
                     <MenuItem Header="Добавить новую область" Click="AddNewPlotWithContextMenu"/>
-                    <MenuItem Click="AddNewCurveWithContextMenu">
-                        <MenuItem.Header>
-                            <TextBlock>
-                                <Run Text="Добавить кривую в"/>
-                                <Run Text="{Binding Path=Name}"/>
-                            </TextBlock>
-                        </MenuItem.Header>
-                    </MenuItem>
-                    <MenuItem>
+                    <MenuItem Click="EditPlotWithContextMenu">
                         <MenuItem.Header>
                             <TextBlock>
                                 <Run Text="Редактировать"/>
@@ -81,8 +73,8 @@
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
-                        <Controls:EditableTextBlock FontSize="12" FontWeight="SemiBold" Text="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" BorderThickness="0" Margin="-5,-5,-5,-5"/>
-                        <Controls:EditableTextBlock IsReadOnly="True" FontSize="12" Text="{Binding Path=CurvesString, Mode=OneWay}" HorizontalAlignment="Left" Margin="-5,-5,-5,-5"/>
+                        <Controls:EditableTextBlock Grid.Row="0" MinWidth="75" FontSize="12" FontWeight="SemiBold" Text="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" BorderThickness="0" Margin="-5,-5,-5,-5"/>
+                        <Controls:EditableTextBlock Grid.Row="1" IsReadOnly="True" FontSize="12" Text="{Binding Path=CurvesString, Mode=OneWay}" HorizontalAlignment="Left" Margin="-5,-5,-5,-5"/>
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>

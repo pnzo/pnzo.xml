@@ -15,137 +15,11 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Collections;
+using xml.task.Data;
 
 namespace xml.task.Forms
 {
-    public class PlotData : INotifyPropertyChanged
-    {
-        private string _name = "Новая область";
-        public string Name
-        {
-            get
-            {
-                return _name;
-            }
-            set
-            {
-                _name = value;
-                OnPropertyChanged();
-            }
-        }
-        public ObservableCollection<CurveData> Curves { get; set; }
-        public string CurvesString
-        {
-            get
-            {
-                var curvesString = @"";
-                foreach (var curve in Curves)
-                {
-                    curvesString += $@"{curve.Name}, ";
-                }
-                return curvesString;
-            }
-        }
-
-        public PlotData()
-        {
-            Curves = new ObservableCollection<CurveData>();
-            Curves.CollectionChanged += ContentCollectionChanged;
-        }
-
-        public void ContentCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            if (e.Action == NotifyCollectionChangedAction.Add)
-                OnPropertyChanged(@"CurvesString");
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged([CallerMemberName]string prop = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
-        }
-    }
-
-    public class CurveData : INotifyPropertyChanged
-    {
-        private string _name = @"Новая кривая";
-        private string _table = @"Таблица";
-        private string _column = @"Столбец";
-        private string _selection = @"Выборка";
-        private string _formula = @"Формула";
-
-        public string Name
-        {
-            get
-            {
-                return _name;
-            }
-            set
-            {
-                _name = value;
-                OnPropertyChanged();
-            }
-        }
-        public string Table
-        {
-            get
-            {
-                return _table;
-            }
-            set
-            {
-                _table = value;
-                OnPropertyChanged();
-            }
-        }
-        public string Column
-        {
-            get
-            {
-                return _column;
-            }
-            set
-            {
-                _column = value;
-                OnPropertyChanged();
-            }
-        }
-        public string Selection
-        {
-            get
-            {
-                return _selection;
-            }
-            set
-            {
-                _selection = value;
-                OnPropertyChanged();
-            }
-        }
-        public string Formula
-        {
-            get
-            {
-                return _formula;
-            }
-            set
-            {
-                _formula = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged([CallerMemberName]string prop = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
-        }
-
-        public override string ToString()
-        {
-            return this.Name;
-        }
-    }
 
     /// <summary>
     /// Логика взаимодействия для GraphForm.xaml
@@ -166,7 +40,7 @@ namespace xml.task.Forms
                     _time = @"0";
                 else
                     _time = value;
-                
+
             }
         }
         public ObservableCollection<object> Sets { get; set; }
@@ -209,22 +83,17 @@ namespace xml.task.Forms
             Plots.Add(new PlotData());
         }
 
-        private void AddNewCurveWithContextMenu(object sender, RoutedEventArgs e)
-        {
-            var window = new NewCurveForm();
-            window.Curve = new CurveData();
-            window.Plot = (PlotData)PlotsListBox.SelectedItem;
-            window.DataContext = window;
-            window.ShowDialog();
-        }
 
         private void DeletePlotWithContextMenu(object sender, RoutedEventArgs e)
         {
             Plots.Remove((PlotData)PlotsListBox.SelectedItem);
         }
 
-        private void PlotsListBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private void EditPlotWithContextMenu(object sender, RoutedEventArgs e)
         {
+            {
+
+            }
             if (PlotsListBox.SelectedItem == null)
                 return;
             var window = new PlotForm
