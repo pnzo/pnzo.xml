@@ -33,7 +33,7 @@ namespace xml.task.Forms
                 OnPropertyChanged();
             }
         }
-        public ObservableCollection<CurveData> Curves = new ObservableCollection<CurveData>();
+        public ObservableCollection<CurveData> Curves { get; set; }
         public string CurvesString
         {
             get
@@ -49,6 +49,7 @@ namespace xml.task.Forms
 
         public PlotData()
         {
+            Curves = new ObservableCollection<CurveData>();
             Curves.CollectionChanged += ContentCollectionChanged;
         }
 
@@ -139,6 +140,11 @@ namespace xml.task.Forms
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
         }
+
+        public override string ToString()
+        {
+            return this.Name;
+        }
     }
 
     /// <summary>
@@ -219,11 +225,12 @@ namespace xml.task.Forms
 
         private void PlotsListBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            var a = (PlotData)PlotsListBox.SelectedItem;
+            if (PlotsListBox.SelectedItem == null)
+                return;
             var window = new PlotForm
             {
                 Owner = this,
-                plotData = a
+                plotData = (PlotData)PlotsListBox.SelectedItem
             };
             window.ShowDialog();
         }

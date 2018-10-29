@@ -12,13 +12,19 @@
             <RowDefinition Height="50"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
-        <Controls:EditableTextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24" FontWeight="DemiBold" Text="{Binding Path=Name}"/>
+        <Controls:EditableTextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24" FontWeight="DemiBold" Text="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
-            <ListBox BorderThickness="0"/>
+            <ListBox BorderThickness="0" DataContext ="{Binding plotData}" ItemsSource="{Binding Path=Curves}" Name="CurvesListBox" SelectionChanged="CurvesListBox_SelectionChanged">
+                <ListBox.ContextMenu>
+                    <ContextMenu >
+                        <MenuItem Header="Добавить новую кривую" Click="MenuItem_Click"/>
+                    </ContextMenu>
+                </ListBox.ContextMenu>
+            </ListBox>
             <Grid Grid.Column="1">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1*"/>
@@ -29,11 +35,17 @@
                     <RowDefinition Height="1*"/>
                     <RowDefinition Height="1*"/>
                 </Grid.RowDefinitions>
-                <Controls:EditableTextBlock Name="ColumnTextBlock" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" FontWeight="DemiBold" Text="123"/>
+                <Controls:EditableTextBlock Name="CurveDataTextBlock" 
+                                            HorizontalAlignment="Center" 
+                                            VerticalAlignment="Center" 
+                                            FontSize="16" 
+                                            FontWeight="DemiBold" 
+                                            DataContext="{Binding CurveData}" 
+                                            Text="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 <TextBlock Grid.Row="1" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Таблица" VerticalAlignment="Center"/>
                 <ComboBox  Grid.Row="2" />
                 <TextBlock  Grid.Row="3" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Столбец" VerticalAlignment="Center"/>
-                <ComboBox  Grid.Row="4" />
+                <ComboBox  Grid.Row="4" DataContext="{Binding CurveData}" Text="{Binding Path=Name}" />
                 <TextBlock  Grid.Row="5" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Выборка" VerticalAlignment="Center"/>
                 <TextBox  Grid.Row="6" TextAlignment="Center" VerticalContentAlignment="Center"/>
             </Grid>
