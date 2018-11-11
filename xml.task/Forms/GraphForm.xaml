@@ -66,6 +66,7 @@
             </ListBox.ContextMenu>
             <ListBox.ItemContainerStyle>
                 <Style TargetType="ListBoxItem">
+                    <Setter Property="Width" Value="300" />
                     <Setter Property="Height" Value="50" />
                     <Setter Property="ContextMenu" Value="{StaticResource listBoxItemContextMenu}"/>
                 </Style>

@@ -15,6 +15,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using xml.task.Data;
+using xml.task.Model.RastrManager;
+using System.Collections.ObjectModel;
 
 namespace xml.task.Forms
 {
@@ -24,8 +26,30 @@ namespace xml.task.Forms
     public partial class PlotForm : Window, INotifyPropertyChanged
     {
         private CurveData _curveData;
+        private List<RastrColumnTemplate> _columnTemplates = new List<RastrColumnTemplate>();
 
         public PlotData plotData { get; set; }
+        public List<RastrTableTemplate> TableTemplates
+        {
+            get
+            {
+                return RastrOperations.tables;
+            }
+        }
+
+        public List<RastrColumnTemplate> ColumnTemplates
+        {
+            get
+            {
+                return _columnTemplates;
+            }
+            set
+            {
+                _columnTemplates = value;
+                OnPropertyChanged();
+            }
+        }
+
         public CurveData CurveData
         {
             get
@@ -70,5 +94,29 @@ namespace xml.task.Forms
             plotData.ContentCollectionChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
         }
 
+        private void TableComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var tableTemplate = (RastrTableTemplate)TableComboBox.SelectedItem;
+
+            if (tableTemplate!=null)
+            {
+                CurveData.Selection = tableTemplate.DefaultSelection;
+                ColumnTemplates = RastrOperations.columns(tableTemplate.Name).Where(k => k.HasTransientGraph == true).ToList();
+            }
+
+        }
+
+        private void ColumnComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void PlotForm_Drop(object sender, DragEventArgs e)
+        {
+            Console.WriteLine(@"!!!!");
+            var formats = e.Data.GetFormats();
+            var data = e.Data.GetData(formats[3]);
+
+        }
     }
 }

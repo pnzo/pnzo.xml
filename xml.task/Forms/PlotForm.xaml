@@ -7,7 +7,8 @@
         xmlns:dd="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
         xmlns:Controls="clr-namespace:Custom.Controls;assembly=Custom.Controls.EditableTextBlock"
         mc:Ignorable="d"
-        Title="PlotForm" Height="400" MaxHeight="400" Width="400" MaxWidth="600" Loaded="Window_Loaded" Closed="Window_Closed">
+        Title="PlotForm" Height="400" MaxHeight="400" Width="400" MaxWidth="600" Loaded="Window_Loaded" Closed="Window_Closed"
+        AllowDrop="True" DragDrop.Drop="PlotForm_Drop">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
@@ -30,8 +31,10 @@
                      ItemsSource="{Binding Path=Curves}" 
                      Name="CurvesListBox" 
                      SelectionChanged="CurvesListBox_SelectionChanged"
+                     AllowDrop="True"
                      dd:DragDrop.IsDragSource="True"
-                     dd:DragDrop.IsDropTarget="True">
+                     dd:DragDrop.IsDropTarget="True"
+                     dd:DragDrop.DropHandler="{Binding}">
                 <ListBox.ContextMenu>
                     <ContextMenu >
                         <MenuItem Header="Добавить новую кривую" Click="MenuItem_Click"/>
@@ -67,13 +70,15 @@
                                             DataContext="{Binding CurveData}" 
                                             Text="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 <TextBlock Grid.Row="1" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Таблица" VerticalAlignment="Center"/>
-                <ComboBox  Grid.Row="2" IsEditable="True" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
+                <ComboBox  Name="TableComboBox" Grid.Row="2" IsEditable="True" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
                            DataContext="{Binding CurveData}" 
-                           Text="{Binding Path=Table, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                           Text="{Binding Path=Table, Mode=TwoWay}"
+                           ItemsSource="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1},Path=TableTemplates}" SelectionChanged="TableComboBox_SelectionChanged"/>
                 <TextBlock  Grid.Row="3" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Столбец" VerticalAlignment="Center"/>
-                <ComboBox  Grid.Row="4" IsEditable="True" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
+                <ComboBox  Name="ColumnComboBox" Grid.Row="4" IsEditable="True" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
                            DataContext="{Binding CurveData}" 
-                           Text="{Binding Path=Column, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                           Text="{Binding Path=Column, Mode=TwoWay}"
+                           ItemsSource="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1},Path=ColumnTemplates}" SelectionChanged="ColumnComboBox_SelectionChanged"/>
                 <TextBlock  Grid.Row="5" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Выборка" VerticalAlignment="Center"/>
                 <TextBox  Grid.Row="6" TextAlignment="Center" VerticalContentAlignment="Center"
                           DataContext="{Binding CurveData}" 
